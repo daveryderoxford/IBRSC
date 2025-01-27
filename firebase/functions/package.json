@@ -1,0 +1,43 @@
+{
+  "name": "functions",
+  "description": "IBRSC Firebase Clould functions",
+  "main": "lib/index.js",
+  "engines": {
+    "node": "22"
+  },
+  "dependencies": {
+    "@google-cloud/storage": "^7.7.0",
+    "@types/node": "^20.10.5",
+    "date-fns": "^3.1.0",
+    "firebase-admin": "^12.6.0",
+    "firebase-functions": "^6.0.1"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.25.4",
+    "firebase-functions-test": "^3.1.0",
+    "typescript": "^5.3.3",
+    "@types/chai": "^4.3.11",
+    "@types/chai-spies": "^1.0.6",
+    "@types/mocha": "^10.0.6",
+    "chai": "^4.3.10",
+    "chai-spies": "^1.1.0",
+    "mocha": "^10.2.0",
+    "ts-node": "^10.9.2"
+  },
+  "private": true,
+  "scripts": {
+    "lint": "eslint --ext .js,.ts .",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log",
+    "test": "mocha --require ts-node/register --reporter spec ./src/spec/*.ts"
+  }
+}

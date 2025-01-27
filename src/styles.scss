@@ -1,1 +1,42 @@
 /* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
+
+@include mat.elevation-classes();
+@include mat.app-background();
+
+@mixin clipped-container {
+   width: 100%;
+   height: 100%;
+   margin: 0;
+   overflow: hidden;
+}
+
+.clipped-container {
+   @include clipped-container;
+}
+
+html {
+   @include clipped-container;
+
+   @include mat.theme((color: (primary: mat.$azure-palette,
+            tertiary: mat.$blue-palette,
+            theme-type: light,
+         ),
+         typography: Roboto,
+         density: -1,
+         use-system-variable: true,
+         system-variables-prefix: sys,
+      ));
+
+   @include mat.toolbar-overrides((container-background-color: var(--mat-sys-primary-container),
+         container-text-color: var(--mat-sys-primary),
+      ));
+}
+
+body {
+   @include clipped-container;
+   font-family: Roboto, "Helvetica Neue", sans-serif;
+   background: var(--mat-sys-surface-container);
+   color: var(--mat-sys-on-surface);
+}
+

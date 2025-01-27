@@ -1,0 +1,33 @@
+
+<app-toolbar title="IBRSC Task Calander" showBack="false">
+   <a mat-icon-button [routerLink]="['/tasks/add']">
+      <mat-icon>add</mat-icon>
+   </a>
+   <app-auth-button/>
+</app-toolbar>
+
+<app-list-container>
+   <mat-list>
+      @for (check of cs.tasks(); track check.id) {
+      <mat-list-item>
+         <span matListItemTitle>{{check.name}}</span>
+         <span matListItemLine>{{check.responsible}} Interval: {{check.interval}} days</span>
+         <span matListItemLine>Due: {{check.nextDue | date}} Last: {{check.lastCompleted | date}} </span>
+        <span matListItemMeta> 
+         <button mat-icon-button [routerLink]="['/tasks/edit', check.id]">
+            <mat-icon>edit</mat-icon>
+         </button>
+            <button mat-icon-button [routerLink]="['/tasks/completetask', check.id]">
+               <mat-icon class="green">check</mat-icon>
+            </button>
+         </span>
+      </mat-list-item>
+      <mat-divider/>
+      } @empty {
+         <mat-list-item>
+             <span matListItemTitle >No tasks</span>
+             <span>Press + to add new task</span>
+         </mat-list-item>
+      }
+   </mat-list>
+</app-list-container>

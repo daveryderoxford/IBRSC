@@ -1,0 +1,15 @@
+
+/* TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version. */
+mat-card { 
+   max-width: 300px !important;
+   width: 100vw !important;
+   min-width: 150px !important;
+}
+
+.title {
+   font: var(--mat-sys-title-medium);
+}
+
+.icon {
+   transform: scale(1.3);
+}

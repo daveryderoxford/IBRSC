@@ -1,0 +1,40 @@
+<app-toolbar title="IBRSC Task complete"></app-toolbar>
+
+<app-form-container>
+
+   <form (ngSubmit)="submit()" [formGroup]="form" novalidate fxLayout="column" fxLayoutAlign="space-around"
+      fxLayoutGap=10px>
+
+      <mat-form-field>
+         <mat-label>Submitted by</mat-label>
+         <input matInput required formControlName="submittedBy">
+         <mat-error>Name required</mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+         <mat-label>Completed on</mat-label>
+         <input matInput formControlName="date" [matDatepicker]="picker1">
+         <mat-hint>DD/MM/YYYY</mat-hint>
+         <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+         <mat-datepicker #picker1></mat-datepicker>
+      </mat-form-field>
+
+         <mat-form-field>
+            <mat-label>Notes</mat-label>
+            <input matInput required formControlName="notes">
+         </mat-form-field>
+
+      <div class="indented">
+         <app-google-storage-upload (uploaded)="attachmentUploaded($event)"></app-google-storage-upload>
+
+         <app-upload-list [files]="attachments" [canDelete]="!task()"
+            (deleted)="attachmentDeleted($event)"></app-upload-list>
+      </div>
+
+      <div fxLayout="row" fxLayoutAlign="space-between center">
+         <button [disabled]="form.invalid || !form.dirty" mat-flat-button type="submit"
+            aria-label="submit">Save</button>
+      </div>
+
+   </form>
+</app-form-container>

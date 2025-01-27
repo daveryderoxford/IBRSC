@@ -1,0 +1,59 @@
+
+<app-form-container>
+
+  <form (ngSubmit)="submit()" [formGroup]="form" novalidate fxLayout="column" fxLayoutAlign="space-around"
+    fxLayoutGap=10px>
+
+    <mat-form-field>
+      <mat-label>Task name</mat-label>
+      <input matInput formControlName="name">
+      <mat-error>Task name required</mat-error>
+      <mat-hint>Name of the task to be performed</mat-hint>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Interval (days)</mat-label>
+      <input matInput type="numeric" formControlName="interval">
+      <mat-error>Integer interval in days required</mat-error>
+      <mat-hint>Interval in days</mat-hint>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Last Completed</mat-label>
+      <input matInput formControlName="lastCompleted" [matDatepicker]="picker1">
+      <mat-hint>DD/MM/YYYY</mat-hint>
+      <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+      <mat-datepicker #picker1></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Next due</mat-label>
+      <input matInput formControlName="nextDue" [matDatepicker]="picker2">
+      <mat-hint>DD/MM/YYYY</mat-hint>
+      <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+      <mat-datepicker #picker2></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Person responsible</mat-label>
+      <input matInput formControlName="responsible">
+      <mat-error>Persons name required</mat-error>
+      <mat-hint>Full name of person responsible</mat-hint>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email">
+      <mat-error>Email required</mat-error>
+      <mat-hint>Email of person responsible</mat-hint>
+
+    </mat-form-field>
+
+    <mat-checkbox formControlName="uploadRequired">Upload required</mat-checkbox>
+   
+    <div fxLayout="row" fxLayoutAlign="space-between center">
+      <button [disabled]="form.invalid || !form.dirty" mat-flat-button type="submit" aria-label="submit">Save</button>
+    </div>
+
+  </form>
+</app-form-container>

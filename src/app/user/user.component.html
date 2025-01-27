@@ -1,0 +1,23 @@
+<app-toolbar title="User details" />
+
+<app-form-container>
+
+  <form (ngSubmit)="save()" novalidate fxLayout="column" fxLayoutAlign="space-around" fxLayoutGap=10px
+    [formGroup]="userForm">
+
+    @if (showProgressBar) {
+    <mat-progress-bar mode="query"> </mat-progress-bar>
+    }
+
+    <mat-form-field>
+      <mat-label> Name</mat-label>
+      <input matInput required formControlName="name">
+    </mat-form-field>
+
+    <div fxLayout="row" fxLayoutAlign="space-between center">
+      <button [disabled]="userForm.invalid || !userForm.dirty" mat-flat-button type="submit"
+        aria-label="login">Save</button>
+    </div>
+
+  </form>
+</app-form-container>

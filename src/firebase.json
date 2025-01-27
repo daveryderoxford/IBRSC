@@ -1,0 +1,50 @@
+{
+   "firebase ionit ": {
+      "rules": "firebase/database.rules.json"
+   },
+   "functions": {
+      "source": "firebase/functions",
+      "predeploy": "npm --prefix firebase/functions run build"
+   },
+   "hosting": {
+      "public": "dist/browser",
+      "ignore": [
+         "firebase.json",
+         "**/.*",
+         "**/node_modules/**"
+      ],
+      "rewrites": [
+         {
+            "source": "**",
+            "destination": "/index.html"
+         }
+      ]
+   },
+   "firestore": {
+      "rules": "firebase/firestore.rules",
+      "indexes": "firebase/firestore.indexes.json"
+   },
+   "storage": {
+      "rules": "firebase/storage.rules"
+   },
+   "emulators": {
+      "functions": {
+         "port": 5001
+      },
+      "firestore": {
+         "port": 8080
+      },
+      "auth": {
+         "port": "9099"
+      },
+      "storage": {
+         "port": "9199"
+      },
+      "hosting": {
+         "port": 4999
+      },
+      "ui": {
+         "enabled": true
+      }
+   }
+}

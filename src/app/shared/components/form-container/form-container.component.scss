@@ -1,0 +1,17 @@
+
+
+mat-card {
+   width: 100%;
+    max-width: 350px;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    background-color: var(--mat-sys-surface)
+ }
+
+.screen-bg {
+    background-color: var(--mat-sys-surface-container-low)
+ }
+
+ .error {
+    color: var(--mat-sys-error);
+ }

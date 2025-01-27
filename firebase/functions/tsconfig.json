@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "lib": [ "es2023"],
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "target": "es2022",
+    "noImplicitAny": false,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "outDir": "lib",
+    "baseUrl": "src",
+    "rootDir": "src",
+    "allowJs": true,
+    "typeRoots": [
+      "node_modules/@types"
+    ]
+  },
+  "include": [
+    "**/*.ts",
+  ]
+}

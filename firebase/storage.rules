@@ -1,0 +1,13 @@
+service firebase.storage {
+  match /b/{bucket}/o {
+    // give read access to all files
+    match /{allPaths=**} {
+      allow read;
+    }
+    // Only allow user or admin to update their results
+    match /results/{userId}/{allPaths=**} {
+      allow write: if request.auth.uid == userId ||
+                      request.auth.uid == 'l8Rex76EDGTME2i44gbpcF7EKOH2';
+    }
+  }
+}

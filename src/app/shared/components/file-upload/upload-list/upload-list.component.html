@@ -1,0 +1,14 @@
+<mat-list>
+  @for (file of files(); track file.storagePath) {
+  <mat-list-item>
+    <span matListItem>
+      <a href="{{ file.url }}" target="_blank" noreferrer noopener>{{ file.originalFilename }}</a>
+    </span>
+    @if (canDelete()) {
+      <button mat-icon-button matListItemMeta type="button" (click)="deleteFileUpload(file)">
+        <mat-icon color="warn">delete</mat-icon>
+      </button>
+    }
+  </mat-list-item>
+  }
+</mat-list>

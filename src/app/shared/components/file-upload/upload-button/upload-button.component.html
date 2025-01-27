@@ -1,0 +1,15 @@
+<div>
+
+  <button mat-raised-button type=button [disabled]="busy()" [matTooltip]="getTooltipText()" (click)="fileInput.click()">
+    <mat-icon>upload</mat-icon>
+    {{title()}}
+  </button>
+  @if (busy()) {
+     <mat-progress-bar mode="indeterminate" class=""></mat-progress-bar>
+  }
+
+  <!-- hidden input used for the actual upload -->
+  <input hidden="true," type="file" multiple #fileInput (change)="upload($event)" />
+
+</div>
+
