@@ -39,8 +39,8 @@ export const taskConverter = {
    toFirestore: (task: Task) => {
       return {
          ...task,
-         lastCompleted: task.lastCompleted == undefined ? null : task.lastCompleted,
-         lastReminder: task.lastReminder == undefined ? null : task.lastReminder,
+         lastCompleted: task.lastCompleted === undefined ? null : task.lastCompleted,
+         lastReminder: task.lastReminder === undefined ? null : task.lastReminder,
       };
    },
    fromFirestore: (snapshot: DocumentSnapshot<any>, options: any): Task => {
@@ -48,8 +48,8 @@ export const taskConverter = {
       return {
          ...data,
          nextDue: data.nextDue.toDate(),
-         lastCompleted: data.lastCompleted == null ? undefined : data.lastCompleted.toDate(),
-         lastReminder: data.lastReminder == null ? undefined : data.lastReminder?.toDate(),
+         lastCompleted: data.lastCompleted === null ? undefined : data.lastCompleted.toDate(),
+         lastReminder: data.lastReminder === null ? undefined : data.lastReminder?.toDate(),
          interval: parseInt(data.interval),
       } as Task;
    }

@@ -2,12 +2,12 @@ import { DatePipe } from '@angular/common';
 import { Component, computed, effect, inject, input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatListModule } from '@angular/material/list';
 import { RouterModule } from '@angular/router';
+import { ListContainerComponent } from "../../shared/components/list-container/list-container.component";
 import { ToolbarComponent } from "../../shared/components/toolbar.component";
 import { TaskService } from '../task.service';
-import { ListContainerComponent } from "../../shared/components/list-container/list-container.component";
-import { MatListModule } from '@angular/material/list';
-import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'app-completed-list',
@@ -25,11 +25,12 @@ export class CompletedList {
 
   task = computed(() => this.cs.findById(this.id())!);
 
-  completed = this.cs.completedTasks(this.id()!);
+  completed = this.cs.completedTasks.value;
 
   constructor() {
     effect(() => {
-      console.log('task id: ' + this.id());
+      console.log('CompletedList: Setting selected task: ' + this.id());
+      this.cs.setSelectedTask(this.task());
     });
   }
 }

@@ -1,10 +1,11 @@
-import { Injectable, Signal, inject } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { Injectable, Signal, computed, inject, signal } from '@angular/core';
+import { rxResource, toSignal } from '@angular/core/rxjs-interop';
 import { Firestore, collection, collectionData, deleteDoc, doc, query, setDoc, where } from '@angular/fire/firestore';
 import { addDays, compareAsc, startOfDay } from 'date-fns';
 import { map } from 'rxjs/operators';
 import { AuthService } from '../auth/auth.service';
 import { CompletedTask, CompletionUserInfo, Task, completedConverter, taskConverter } from './task.model';
+import { firstValueFrom, Observable } from 'rxjs';
 
 const TASK_COLLECTION = 'tasks';
 const COMPLETED_COLLECTION = 'completedtasks';
@@ -53,10 +54,20 @@ export class TaskService {
       await deleteDoc(this.ref(id));
    }
 
-   completedTasks(taskId: string): Signal<CompletedTask[]> {
-      const q = query(this.completedCollectionRef,where("taskId", "==", taskId));
-      return toSignal(collectionData(q), {initialValue: []});
+   private selectedTask = signal<Task | undefined>(undefined);
+
+   setSelectedTask(task: Task ) {
+      this.selectedTask.set(task);
    }
+
+   completedTasks = rxResource<CompletedTask[], string>({
+      request: () => (this.selectedTask() === undefined) ? '' : this.selectedTask()!.id,
+      loader: ({ request: taskId }) => {
+         console.log('TaskService: Loading completed tasks for Id:' + taskId);
+         const q = query(this.completedCollectionRef, where("taskId", "==", taskId));
+         return collectionData(q)
+      }
+   });
 
    async completeTask(task: Task, userInfo: CompletionUserInfo): Promise<void> {
 
