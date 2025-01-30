@@ -15,7 +15,6 @@
         "*.local"
       ],
       "predeploy": [
-   
         "npm --prefix firebase/functions run build"
       ]
     }

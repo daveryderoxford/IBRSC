@@ -1,9 +1,10 @@
-import { Component, computed, effect, inject, input, viewChild } from '@angular/core';
+import { Component, computed, inject, input, viewChild } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { TaskService } from '../task.service';
-import { Task } from '../task.model';
-import { TaskForm } from './task-form';
 import { ToolbarComponent } from "../../shared/components/toolbar.component";
+import { Task } from '../task.model';
+import { TaskService } from '../task.service';
+import { TaskForm } from './task-form';
 
 @Component({
    selector: 'app-task-edit',
@@ -18,16 +19,22 @@ import { ToolbarComponent } from "../../shared/components/toolbar.component";
 export class EditTask {
    private cs = inject(TaskService);
    private router = inject(Router);
+   private snackbar= inject(MatSnackBar);
 
-   id = input<string>('');   // Route parameter
+   id = input.required<string>();   // Route parameter
 
    check = computed(() => this.cs.tasks().find(l => l.id === this.id())!);
 
    readonly form = viewChild.required(TaskForm);
 
    async submitted(data: Partial<Task>) {
-      await this.cs.update(this.id(), data);
-      this.router.navigate(["/tasks"]);
+      try {
+         await this.cs.update(this.id(), data);
+         this.router.navigate(["/tasks"]);
+      } catch (error: any) {
+         this.snackbar.open("Error encountered updating task", "Error encountered updating task", { duration: 3000 });
+         console.log('UpdateTask.   Error updating task: ' + error.toString());
+      } 
    }
 
    canDeactivate(): boolean {

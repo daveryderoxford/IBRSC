@@ -1,9 +1,10 @@
-import { Component, viewChild, inject } from '@angular/core';
+import { Component, inject, viewChild } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { TaskForm } from './task-form';
-import { TaskService } from '../task.service';
-import { Task } from '../task.model';
 import { ToolbarComponent } from "../../shared/components/toolbar.component";
+import { Task } from '../task.model';
+import { TaskService } from '../task.service';
+import { TaskForm } from './task-form';
 
 @Component({
    selector: 'app-task-add',
@@ -17,12 +18,18 @@ import { ToolbarComponent } from "../../shared/components/toolbar.component";
 export class AddTask {
    private fs = inject(TaskService);
    private router = inject(Router);
+   private snackbar= inject(MatSnackBar);
 
    readonly form = viewChild.required(TaskForm);
 
    async submitted(task: Partial<Task>) {
-      await this.fs.add(task);
-      this.router.navigate(["/"]);
+      try {
+         await this.fs.add(task);
+         this.router.navigate(["/"]);
+      } catch (error: any) {
+         this.snackbar.open("Error encountered adding task", "Error encountered adding task", { duration: 3000 });
+         console.log('AddTask.   Error adding task: ' + error.toString());
+      } 
    }
 
    canDeactivate(): boolean {

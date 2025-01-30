@@ -1,11 +1,10 @@
-import { Component, computed, inject, input } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { TaskService } from '../task.service';
 import { DatePipe } from '@angular/common';
+import { Component, computed, inject, input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { BackButtonDirective } from '../../shared/components/back-directive/back-button.direcrtive';
+import { RouterModule } from '@angular/router';
 import { ToolbarComponent } from "../../shared/components/toolbar.component";
+import { TaskService } from '../task.service';
 
 @Component({
   selector: 'app-completion-confirmation',
@@ -46,6 +45,4 @@ export class CompletionConfirmation {
   id = input.required<string>(); // Route parameter
 
   task = computed(() => this.cs.findById(this.id())!);
-
-
 }

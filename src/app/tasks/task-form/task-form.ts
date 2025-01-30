@@ -29,7 +29,7 @@ export class TaskForm {
   form = new FormGroup({
     name: new FormControl('', { validators: [Validators.required] }),
     interval: new FormControl(0, { validators: [Validators.required, Validators.min(1), Validators.max(3650)] }),
-    lastCompleted: new FormControl<Date>( startOfDay( new Date()), { validators: [Validators.required] }),
+    lastCompleted: new FormControl<Date | undefined>( undefined, { validators: [Validators.required] }),
     nextDue: new FormControl<Date>(startOfDay(new Date()), { validators: [Validators.required] }),
     responsible: new FormControl('', { validators: [Validators.required] }),
     email: new FormControl('', { validators: [Validators.required] }),

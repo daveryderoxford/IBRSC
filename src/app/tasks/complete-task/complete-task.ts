@@ -1,5 +1,5 @@
 import { TextFieldModule } from '@angular/cdk/text-field';
-import { Component, EventEmitter, Output, computed, effect, inject, input } from '@angular/core';
+import { Component, computed, effect, inject, input } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
@@ -10,30 +10,35 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { FlexModule } from '@ngbracket/ngx-layout';
+import { startOfDay } from 'date-fns';
 import { GoogleStorageReference } from '../../shared/components/file-upload/google-storage-ref.model';
 import { GggoleStorageUploadComponent } from '../../shared/components/file-upload/google-storage-upload-button';
 import { UploadListComponent } from '../../shared/components/file-upload/upload-list/upload-list.component';
 import { FormContainerComponent } from '../../shared/components/form-container/form-container.component';
 import { ToolbarComponent } from '../../shared/components/toolbar.component';
-import { CompletedTask, CompletionUserInfo } from '../task.model';
+import { CompletionUserInfo } from '../task.model';
 import { TaskService } from '../task.service';
-import { startOfDay } from 'date-fns';
-import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-task-check',
+  selector: 'app-complete-task',
   standalone: true,
-  imports: [FormContainerComponent, FlexModule, MatDividerModule, MatAutocompleteModule, UploadListComponent, GggoleStorageUploadComponent, ToolbarComponent, MatDatepickerModule, TextFieldModule, MatExpansionModule, MatOptionModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatButtonModule],
-  templateUrl: './completed-task.html',
-  styleUrl: './completed-task.scss',
+  imports: [FormContainerComponent, FlexModule, MatDividerModule, MatAutocompleteModule, UploadListComponent, 
+    GggoleStorageUploadComponent, ToolbarComponent, MatDatepickerModule, 
+    TextFieldModule, MatExpansionModule, MatOptionModule, ReactiveFormsModule, 
+    MatFormFieldModule, MatInputModule, MatSelectModule, MatButtonModule],
+  templateUrl: './complete-task.html',
+  styleUrl: './complete-task.scss',
   providers: [provideNativeDateAdapter()],
 })
-export class CompletedTaskForm {
+export class CompleteTaskForm {
   cs = inject(TaskService);
   router = inject(Router);
+  snackbar = inject(MatSnackBar);
 
-  id = input.required<string>(); // Route parameter
+  id = input.required<string>(); // Task id Route parameter
   task = computed(() => this.cs.findById(this.id())!);
 
   form = new FormGroup({
@@ -55,6 +60,10 @@ export class CompletedTaskForm {
         });
       }
     });
+  }
+
+  storageFolder() {
+    return `attachments/${this.task().id}/${this.task().nextId}`
   }
 
   /** Get/set the attachments from the form control */
@@ -82,12 +91,18 @@ export class CompletedTaskForm {
 
   submit() {
     const userInfo = this.form.getRawValue() as CompletionUserInfo;
-  
-    this.cs.completeTask(this.task(), userInfo);
-    
-    this.form.reset();
 
-    this.router.navigate(['/tasks/completionConfirmation', this.task().id])
+    try {
+
+      this.cs.completeTask(this.task(), userInfo);
+
+      this.form.reset();
+      this.router.navigate(['/tasks/completionConfirmation', this.task().id]);
+
+    } catch (error: any) {
+      this.snackbar.open("Error encountered completing task", "Error encountered completing task", { duration: 3000 });
+      console.log('CompletionForm. Error completing task: ' + error.toString());
+    }
   }
 
   public canDeactivate(): boolean {

@@ -1,25 +1,19 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Storage, UploadMetadata, deleteObject, getDownloadURL, listAll, ref, uploadBytes } from '@angular/fire/storage';
 
 import { GoogleStorageReference } from './google-storage-ref.model';
-
-export type RootPath = 'claims' | 'invoices';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GoogleStorageService {
+  private storage = inject(Storage);
 
-  constructor(private storage: Storage) { }
-
-  async saveFileToStorage(files: File[],
-    rootPath: RootPath,
-    userId: string): Promise<GoogleStorageReference[]> {
-
-    const userPath = `${rootPath}/${userId}`;
+  /** Save list of files to a specified folder in Google storage */
+  async saveFileToStorage(files: File[], folder: string): Promise<GoogleStorageReference[]> {
 
     // Get all files uploaded by user to generate next name
-    const listRef = ref(this.storage, userPath);
+    const listRef = ref(this.storage, folder);
     const allFileNames = await listAll(listRef);
     const firstFileCount = allFileNames.items.length + 1;
 
@@ -29,7 +23,7 @@ export class GoogleStorageService {
 
       const fileneme = (firstFileCount + index).toString();
 
-      const storagePath = userPath + '/' + fileneme;
+      const storagePath = folder + '/' + fileneme;
 
       // Create the file metadata
       const metadata: UploadMetadata = {

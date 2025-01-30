@@ -6,7 +6,8 @@ export interface Task {
    userId: string;
    name: string;
    interval: number;  // number of days between 
-   lastCompleted: Date;
+   lastCompleted?: Date;
+   lastReminder?: Date;
    nextDue: Date;
    nextId: string;
    responsible: string;
@@ -31,21 +32,25 @@ export interface CompletedTask {
    attachments: GoogleStorageReference[];
 }
 
-
-// Firestore data converter
+// Firestore data converters
+// 1. Firebase only supports null while undefined is perferred in project
+// 2. Firebase stores dates as Timestamps rather than Javascript dates.  
 export const taskConverter = {
    toFirestore: (task: Task) => {
       return {
          ...task,
+         lastCompleted: task.lastCompleted == undefined ? null : task.lastCompleted,
+         lastReminder: task.lastReminder == undefined ? null : task.lastReminder,
       };
    },
    fromFirestore: (snapshot: DocumentSnapshot<any>, options: any): Task => {
-      const data = snapshot.data(options)!;
+      const data = snapshot.data()!;
       return {
          ...data,
-         nextDue: data.nextDue?.toDate(),
-         lastCompleted: data.lastCompleted?.toDate(),
-         interval: parseInt(data.interval)
+         nextDue: data.nextDue.toDate(),
+         lastCompleted: data.lastCompleted == null ? undefined : data.lastCompleted.toDate(),
+         lastReminder: data.lastReminder == null ? undefined : data.lastReminder?.toDate(),
+         interval: parseInt(data.interval),
       } as Task;
    }
 };
@@ -58,10 +63,10 @@ export const completedConverter = {
       };
    },
    fromFirestore: (snapshot: DocumentSnapshot<any>, options: any): CompletedTask => {
-      const data = snapshot.data(options)!;
+      const data = snapshot.data()!;
       return {
          ...data,
-         date: data.date?.toDate(),
+         date: data.date.toDate(),
       } as CompletedTask;
-   }
+   },
 };

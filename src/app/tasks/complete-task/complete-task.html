@@ -19,16 +19,15 @@
          <mat-datepicker #picker1></mat-datepicker>
       </mat-form-field>
 
-         <mat-form-field>
-            <mat-label>Notes</mat-label>
-            <input matInput required formControlName="notes">
-         </mat-form-field>
+      <mat-form-field>
+         <mat-label>Notes</mat-label>
+         <input matInput formControlName="notes">
+      </mat-form-field>
 
       <div class="indented">
-         <app-google-storage-upload (uploaded)="attachmentUploaded($event)"></app-google-storage-upload>
+         <app-google-storage-upload [folder]="storageFolder()" (uploaded)="attachmentUploaded($event)" />
 
-         <app-upload-list [files]="attachments" [canDelete]="!task()"
-            (deleted)="attachmentDeleted($event)"></app-upload-list>
+         <app-upload-list [files]="attachments" [canDelete]="!task()" (deleted)="attachmentDeleted($event)" />
       </div>
 
       <div fxLayout="row" fxLayoutAlign="space-between center">

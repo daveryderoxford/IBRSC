@@ -1,15 +1,16 @@
 
 
-import { differenceInDays, startOfDay } from 'date-fns';
+import { differenceInDays, format, startOfDay } from 'date-fns';
 import * as admin from "firebase-admin";
-import { onSchedule } from 'firebase-functions/scheduler';
-import { Task, taskConverter } from 'model/task.model';
+import { Task, taskConverter } from './model/task.model';
 import { MailMessage, sendMail } from './mail';
+// eslint-disable-next-line import/no-unresolved
+import { onSchedule } from 'firebase-functions/v2/scheduler';
 
 const TASKS_COLLECTION = 'tasks';
-const BASE_URL = '';
+const BASE_URL = 'https://ibrsc-7619b.web.app';
 
-const emailIntervals = [0, 7, 14, 30];
+const reminderInterval = 0;
 
 /** Run to perfrom maintenance tasks once/day at 02:00 */
 export const dailyMaintenance = onSchedule("every day 02:00", async (context) => {
@@ -20,13 +21,19 @@ export const dailyMaintenance = onSchedule("every day 02:00", async (context) =>
 
    // Find reminders that need to be sent
    const tasks = (await getTasks()).filter(task => task.nextDue <= today);
+   console.log(`   Found ${tasks.length} overdue tasks`);
 
    for (const task of tasks) {
-      if (emailIntervals.includes(differenceInDays(today, task.nextDue))) {
-         mailMessage(task);
+      if (!task.lastReminder || differenceInDays(task.lastReminder, today) >= reminderInterval) {
+         await mailMessage(task);
+
+         const ref = admin.firestore().doc(TASKS_COLLECTION + "/" + task.id).withConverter(taskConverter);
+         await ref.update({ lastReminder: today})
+         
       }
    }
 
+   console.log("Maintenance task end");
 });
 
 async function getTasks(): Promise<Task[]> {
@@ -35,16 +42,19 @@ async function getTasks(): Promise<Task[]> {
    return snapshot.docs.map( snap => snap.data())
 }
 
-function mailMessage(task: Task) {
+async function mailMessage(task: Task) {
+   console.log(`   Sending mail for ${task.name} to ${task.responsible} at ${task.email}`);
+
+   const dateStr = format(task.nextDue, 'dd/MM/yyyy');
 
    const msgText = `
 Hi ${task.responsible}
 
-${task.name} is due to be completed ${task.nextDue}
+${task.name} is due to be completed by ${dateStr}.
 
-Once it is complete, use the link below to report its completion and upload nay related reoirts/certificates.
+Report completion using the link below.
 
-<a href = '${BASE_URL}/${task.nextId}'> 
+${BASE_URL}/tasks/completetask/${task.nextId}
 
 Regards
 Michelle Ryder
@@ -55,10 +65,9 @@ IBRSC H & S Officer
       to: task.email,
       message: {
          subject: `${task.name} reminder`,
-         text: msgText
-      }
-
+         text: msgText,
+      },
    };
 
-   sendMail(msg);
+   await sendMail(msg);
 }

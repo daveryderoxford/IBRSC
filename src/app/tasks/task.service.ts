@@ -1,7 +1,7 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, Signal, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { Firestore, collection, collectionData, deleteDoc, doc, setDoc } from '@angular/fire/firestore';
-import { addDays, compareAsc } from 'date-fns';
+import { Firestore, collection, collectionData, deleteDoc, doc, query, setDoc, where } from '@angular/fire/firestore';
+import { addDays, compareAsc, startOfDay } from 'date-fns';
 import { map } from 'rxjs/operators';
 import { AuthService } from '../auth/auth.service';
 import { CompletedTask, CompletionUserInfo, Task, completedConverter, taskConverter } from './task.model';
@@ -53,6 +53,11 @@ export class TaskService {
       await deleteDoc(this.ref(id));
    }
 
+   completedTasks(taskId: string): Signal<CompletedTask[]> {
+      const q = query(this.completedCollectionRef,where("taskId", "==", taskId));
+      return toSignal(collectionData(q), {initialValue: []});
+   }
+
    async completeTask(task: Task, userInfo: CompletionUserInfo): Promise<void> {
 
       const completed: CompletedTask  = {
@@ -65,9 +70,10 @@ export class TaskService {
       await setDoc(this.completedRef(task.nextId), completed);
 
       // update task details with next check
-      task.nextDue = addDays(completed.date, task.interval);
       task.nextId = doc(this.completedCollectionRef).id;
       task.lastCompleted = completed.date;
+      task.nextDue = addDays(startOfDay(new Date()), task.interval);
+      task.lastReminder = undefined;
 
       await this.update(task.id, task);
       

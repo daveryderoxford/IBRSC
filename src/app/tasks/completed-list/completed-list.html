@@ -1,0 +1,24 @@
+<app-toolbar [title]="task().name" showBack="true"/>
+
+<app-list-container>
+   <mat-list>
+      @for (comp of completed(); track comp.id) {
+      <mat-list-item>
+         <span matListItemTitle>{{comp.date | date}}</span>
+         <span matListItemLine>{{comp.submittedBy}}</span>
+         <span matListItemLine>
+            @for (attachment of comp.attachments; track attachment) {
+              <a href={{attachment.url}}> {{attachment.originalFilename}}</a>
+            }
+         </span>
+         <mat-divider />
+      </mat-list-item>
+      } @empty {
+      <mat-list-item>
+         <span matListItemTitle>Task has not yet been performed</span>
+      </mat-list-item>
+      }
+   </mat-list>
+</app-list-container>
+
+

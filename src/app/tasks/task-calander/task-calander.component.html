@@ -1,6 +1,6 @@
 
 <app-toolbar title="IBRSC Task Calander" showBack="false">
-   <a mat-icon-button [routerLink]="['/tasks/add']">
+   <a mat-icon-button matTooltip="Add Task" [routerLink]="['/tasks/add']">
       <mat-icon>add</mat-icon>
    </a>
    <app-auth-button/>
@@ -8,18 +8,18 @@
 
 <app-list-container>
    <mat-list>
-      @for (check of cs.tasks(); track check.id) {
+      @for (task of cs.tasks(); track task.id) {
       <mat-list-item>
-         <span matListItemTitle>{{check.name}}</span>
-         <span matListItemLine>{{check.responsible}} Interval: {{check.interval}} days</span>
-         <span matListItemLine>Due: {{check.nextDue | date}} Last: {{check.lastCompleted | date}} </span>
+         <span matListItemTitle>{{task.name}}</span>
+         <span matListItemLine>{{task.responsible}}   Interval: {{task.interval}} days</span>
+         <span matListItemLine>
+            @if (task.lastCompleted) {
+               <span>Last: {{task.lastCompleted | date}} </span>
+            }
+            <span [class.overdue]="overdue(task)"> Due: {{task.nextDue | date}}</span>
+         </span>
         <span matListItemMeta> 
-         <button mat-icon-button [routerLink]="['/tasks/edit', check.id]">
-            <mat-icon>edit</mat-icon>
-         </button>
-            <button mat-icon-button [routerLink]="['/tasks/completetask', check.id]">
-               <mat-icon class="green">check</mat-icon>
-            </button>
+            <app-task-menu [task]="task"/>
          </span>
       </mat-list-item>
       <mat-divider/>

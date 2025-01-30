@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, signal } from '@angular/core';
+import { Component, EventEmitter, inject, input, output, Output, signal } from '@angular/core';
 import { AuthService } from '../../../auth/auth.service';
 import { GoogleStorageReference } from './google-storage-ref.model';
 import { GoogleStorageService } from './googleStorage.service';
@@ -9,17 +9,19 @@ import { UploadButtonComponent } from './upload-button/upload-button.component';
    template: `
       <app-upload-button [busy]="busy()" (files)="upload($event)"></app-upload-button>
   `,
-   styles: [],
+   styles: ``,
    standalone: true,
    imports: [UploadButtonComponent]
 })
 export class GggoleStorageUploadComponent {
-   constructor(public uploadService: GoogleStorageService,
-                      private as: AuthService ) {}
+   uploadService = inject(GoogleStorageService);
+   as = inject(AuthService);
 
-   @Output() uploaded = new EventEmitter<GoogleStorageReference[]>();
+   folder = input.required<string>();
 
-   busy = signal(false); 
+   uploaded = output<GoogleStorageReference[]>();
+
+   busy = signal(false);
 
    async upload(files: File[]): Promise<void> {
 
@@ -27,12 +29,7 @@ export class GggoleStorageUploadComponent {
 
       try {
          this.busy.set(true);
-
-         attachments = await this.uploadService.saveFileToStorage(
-            files, 
-            'claims',
-            this.as.user()!.uid
-         );
+         attachments = await this.uploadService.saveFileToStorage(files, this.folder());
       } finally {
          this.busy.set(false);
       }
