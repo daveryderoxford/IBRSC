@@ -20,7 +20,7 @@
 
     <mat-form-field>
       <mat-label>Last Completed</mat-label>
-      <input matInput formControlName="lastCompleted" [matDatepicker]="picker1">
+      <input matInput formControlName="lastCompleted" [max]="today" [matDatepicker]="picker1">
       <mat-hint>DD/MM/YYYY</mat-hint>
       <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
       <mat-datepicker #picker1></mat-datepicker>

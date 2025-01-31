@@ -10,7 +10,8 @@ import { onSchedule } from 'firebase-functions/v2/scheduler';
 const TASKS_COLLECTION = 'tasks';
 const BASE_URL = 'https://ibrsc-7619b.web.app';
 
-const reminderInterval = 0;
+const reminderInterval = 7;
+const hsemail = 'ryder_michelle@hotmail.com'
 
 /** Run to perfrom maintenance tasks once/day at 02:00 */
 export const dailyMaintenance = onSchedule("every day 02:00", async (context) => {
@@ -62,7 +63,7 @@ IBRSC H & S Officer
 `;
 
    const msg: MailMessage = {
-      to: task.email,
+      to: task.email + ',' + hsemail,
       message: {
          subject: `${task.name} reminder`,
          text: msgText,

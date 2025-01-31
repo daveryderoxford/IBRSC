@@ -17,6 +17,7 @@ import { connectStorageEmulator } from 'firebase/storage';
 import { getAnalytics, provideAnalytics, ScreenTrackingService, UserTrackingService } from '@angular/fire/analytics';
 import { firebaseConfig } from './app.firebase-config';
 import { environment } from '../environments/environment';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -57,6 +58,7 @@ export const appConfig: ApplicationConfig = {
 
     provideAnimations(),
     provideHttpClient(withInterceptorsFromDi()),
+    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
     importProvidersFrom(
       MatDialogModule,
       MatSnackBarModule,

@@ -22,6 +22,19 @@ import { ToolbarComponent } from '../../shared/components/toolbar.component';
 import { CompletionUserInfo } from '../task.model';
 import { TaskService } from '../task.service';
 
+
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'LL',
+  },
+  display: {
+    dateInput: 'DD-MM-YYYY',
+    monthYearLabel: 'YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'YYYY',
+  },
+};
+
 @Component({
   selector: 'app-complete-task',
   standalone: true,
@@ -40,6 +53,8 @@ export class CompleteTaskForm {
 
   id = input.required<string>(); // Task id Route parameter
   task = computed(() => this.cs.findById(this.id())!);
+
+  today = startOfDay(new Date());
 
   form = new FormGroup({
     date: new FormControl(new Date(), { validators: [Validators.required] }),

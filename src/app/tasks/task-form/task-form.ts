@@ -36,6 +36,8 @@ export class TaskForm {
   submitted = output<Partial<Task>>();
   deleted = output<Task>();
 
+  today = startOfDay(new Date());
+
   form = new FormGroup({
     name: new FormControl('', { validators: [Validators.required] }),
     interval: new FormControl(0, { validators: [Validators.required, Validators.min(1), Validators.max(3650)] }),
