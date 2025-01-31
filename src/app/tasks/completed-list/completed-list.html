@@ -1,5 +1,5 @@
 @if (cs.completedTasks.isLoading()) {
-   Loading 
+   <mat-progress-bar mode="indeterminate"></mat-progress-bar>
 } @else {
 <app-toolbar [title]="task().name" showBack="true"/>
 
@@ -14,8 +14,8 @@
               <a href={{attachment.url}}> {{attachment.originalFilename}}</a>
             }
          </span>
-         <mat-divider />
       </mat-list-item>
+      <mat-divider></mat-divider>
       } @empty {
       <mat-list-item>
          <span matListItemTitle>Task has not yet been performed</span>

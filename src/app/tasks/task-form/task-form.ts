@@ -16,15 +16,25 @@ import { startOfDay } from 'date-fns';
 @Component({
   selector: 'app-task-form',
   templateUrl: './task-form.html',
-  styles: '',
+  styles: `
+    @use '@angular/material' as mat;
+
+  .warning {
+    @include mat.button-overrides((
+      filled-container-color: var(--mat-sys-error),
+      filled-label-text-color: var(--mat-sys-on-error),
+    ));
+  }
+  `,
   imports: [FlexModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule,
     MatSelectModule, MatButtonModule, MatDatepickerModule, FormContainerComponent, MatCheckboxModule],
   providers: [provideNativeDateAdapter()],
 })
 export class TaskForm {
 
-  check = input<Task | undefined>();
+  task = input<Task | undefined>();
   submitted = output<Partial<Task>>();
+  deleted = output<Task>();
 
   form = new FormGroup({
     name: new FormControl('', { validators: [Validators.required] }),
@@ -38,8 +48,8 @@ export class TaskForm {
 
   constructor() {
     effect(() => {
-      if (this.check()) {
-        this.form.patchValue(this.check()!);
+      if (this.task()) {
+        this.form.patchValue(this.task()!);
       }
     });
   }

@@ -16,7 +16,7 @@ import { TaskForm } from './task-form';
    imports: [TaskForm, ToolbarComponent]
 })
 export class AddTask {
-   private fs = inject(TaskService);
+   private ts = inject(TaskService);
    private router = inject(Router);
    private snackbar= inject(MatSnackBar);
 
@@ -24,7 +24,7 @@ export class AddTask {
 
    async submitted(task: Partial<Task>) {
       try {
-         await this.fs.add(task);
+         await this.ts.add(task);
          this.router.navigate(["/"]);
       } catch (error: any) {
          this.snackbar.open("Error encountered adding task", "Error encountered adding task", { duration: 3000 });

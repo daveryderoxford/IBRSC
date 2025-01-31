@@ -13,6 +13,7 @@ export interface Task {
    responsible: string;
    email: string;
    uploadRequired: boolean;
+   information: string;
 }
 
 export interface CompletionUserInfo {

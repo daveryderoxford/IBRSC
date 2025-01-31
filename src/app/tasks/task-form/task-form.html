@@ -46,13 +46,15 @@
       <input matInput formControlName="email">
       <mat-error>Email required</mat-error>
       <mat-hint>Email of person responsible</mat-hint>
-
     </mat-form-field>
 
     <mat-checkbox formControlName="uploadRequired">Upload required</mat-checkbox>
    
     <div fxLayout="row" fxLayoutAlign="space-between center">
       <button [disabled]="form.invalid || !form.dirty" mat-flat-button type="submit" aria-label="submit">Save</button>
+      @if (task()) {
+        <button mat-flat-button class='warning' type="button" (click)="deleted.emit(task()!)" aria-label="delete">Delete</button>
+      }
     </div>
 
   </form>
