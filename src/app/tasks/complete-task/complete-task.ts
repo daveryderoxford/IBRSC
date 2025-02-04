@@ -3,7 +3,7 @@ import { Component, computed, effect, inject, input } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
-import { MatOptionModule, provideNativeDateAdapter } from '@angular/material/core';
+import { MatOptionModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -21,7 +21,6 @@ import { FormContainerComponent } from '../../shared/components/form-container/f
 import { ToolbarComponent } from '../../shared/components/toolbar.component';
 import { CompletionUserInfo } from '../task.model';
 import { TaskService } from '../task.service';
-
 
 export const MY_FORMATS = {
   parse: {
@@ -44,7 +43,6 @@ export const MY_FORMATS = {
     MatFormFieldModule, MatInputModule, MatSelectModule, MatButtonModule],
   templateUrl: './complete-task.html',
   styleUrl: './complete-task.scss',
-  providers: [provideNativeDateAdapter()],
 })
 export class CompleteTaskForm {
   cs = inject(TaskService);

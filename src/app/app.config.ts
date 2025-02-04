@@ -17,7 +17,10 @@ import { connectStorageEmulator } from 'firebase/storage';
 import { getAnalytics, provideAnalytics, ScreenTrackingService, UserTrackingService } from '@angular/fire/analytics';
 import { firebaseConfig } from './app.firebase-config';
 import { environment } from '../environments/environment';
-import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { DateFnsAdapter, MAT_DATE_FNS_FORMATS, provideDateFnsAdapter } from '@angular/material-date-fns-adapter';
+import { enGB } from 'date-fns/locale';
+
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -58,7 +61,10 @@ export const appConfig: ApplicationConfig = {
 
     provideAnimations(),
     provideHttpClient(withInterceptorsFromDi()),
-    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
+    { provide: MAT_DATE_LOCALE, useValue: enGB },
+    { provide: DateAdapter, useClass: DateFnsAdapter, deps: [MAT_DATE_LOCALE] },
+    { provide: MAT_DATE_FORMATS, useValue: MAT_DATE_FNS_FORMATS },
+    provideDateFnsAdapter(),
     importProvidersFrom(
       MatDialogModule,
       MatSnackBarModule,
