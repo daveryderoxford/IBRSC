@@ -9,14 +9,25 @@ import { ListContainerComponent } from "../../shared/components/list-container/l
 import { ToolbarComponent } from "../../shared/components/toolbar.component";
 import { TaskService } from '../task.service';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { FlexModule } from '@ngbracket/ngx-layout';
 
 @Component({
   selector: 'app-completed-list',
   standalone: true,
   imports: [RouterModule, DatePipe, MatButtonModule, MatCardModule, ToolbarComponent, ListContainerComponent,
-    MatListModule, MatDividerModule, MatProgressBarModule],
+    MatListModule, MatDividerModule, MatProgressBarModule, FlexModule],
   templateUrl: './completed-list.html',
-  styles: '',
+  styles: `
+  mat-list { 
+    overflow: auto; 
+  }
+  .left {
+    flex: 50%;
+  }
+  .right {
+     flex: 30%;
+  }
+  `,
 })
 export class CompletedList {
 

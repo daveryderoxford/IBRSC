@@ -4,11 +4,16 @@
 <app-toolbar [title]="task().name" showBack="true"/>
 
 <app-list-container>
-   <mat-list>
+   <mat-list class="scroll">
       @for (comp of completed(); track comp.id) {
       <mat-list-item>
-         <span matListItemTitle>{{comp.date | date}}</span>
-         <span matListItemLine>{{comp.submittedBy}}</span>
+         <span matListItemLine>
+              <span class="left">{{comp.date | date}}</span>
+               <span class="right">{{comp.submittedBy}}</span>
+         </span>
+         @if (comp.notes) {
+            <span matListItemLine>{{comp.notes}}</span>
+         }
          <span matListItemLine>
             @for (attachment of comp.attachments; track attachment) {
               <a href={{attachment.url}}> {{attachment.originalFilename}}</a>

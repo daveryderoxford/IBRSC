@@ -4,9 +4,18 @@
    width: 100vw;
    min-width: none;
    height: 100%;
+   overflow-y: auto;
    background-color: var(--mat-sys-surface)
 }
 
-.screen-bg {
-   background-color: var(--mat-sys-surface-container-low)
+:host {
+   height: 100%;
+   overflow: hidden;
 }
+
+.screen-bg {
+   background-color: var(--mat-sys-surface-container-low);
+   overflow: hidden;
+}
+
+

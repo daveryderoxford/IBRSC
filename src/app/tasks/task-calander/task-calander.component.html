@@ -1,33 +1,40 @@
-
 <app-toolbar title="IBRSC Task Calander" showBack="false">
    <a mat-icon-button matTooltip="Add Task" [routerLink]="['/tasks/add']">
       <mat-icon>add</mat-icon>
    </a>
-   <app-auth-button/>
+   <app-auth-button />
 </app-toolbar>
+
+<div>
+   <mat-form-field appearance="outline" subscriptSizing='dynamic' class="full-width">
+      <mat-icon matPrefix>search</mat-icon>
+      <input #searchQuery matInput placeholder="Search" (input)="searchKeyPressed(searchQuery.value)">
+   </mat-form-field>
+</div>
+
 
 <app-list-container>
    <mat-list>
-      @for (task of cs.tasks(); track task.id) {
+      @for (task of filteredTasks(); track task.id) {
       <mat-list-item>
          <span matListItemTitle>{{task.name}}</span>
-         <span matListItemLine>{{task.responsible}}   Interval: {{task.interval}} days</span>
+         <span matListItemLine>{{task.responsible}} Interval: {{task.interval}} days</span>
          <span matListItemLine>
             @if (task.lastCompleted) {
-               <span>Last: {{task.lastCompleted | date}} </span>
+            <span>Last: {{task.lastCompleted | date}} </span>
             }
             <span [class.overdue]="overdue(task)"> Due: {{task.nextDue | date}}</span>
          </span>
-        <span matListItemMeta> 
-            <app-task-menu [task]="task"/>
+         <span matListItemMeta>
+            <app-task-menu [task]="task" />
          </span>
       </mat-list-item>
-      <mat-divider/>
+      <mat-divider />
       } @empty {
-         <mat-list-item>
-             <span matListItemTitle >No tasks</span>
-             <span>Press + to add new task</span>
-         </mat-list-item>
+      <mat-list-item>
+         <span matListItemTitle>No tasks</span>
+         <span>Press + to add new task</span>
+      </mat-list-item>
       }
    </mat-list>
 </app-list-container>
