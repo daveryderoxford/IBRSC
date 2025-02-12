@@ -55,7 +55,7 @@ ${task.name} is due to be completed by ${dateStr}.
 
 Report completion using the link below.
 
-${BASE_URL}/tasks/completetask/${task.nextId}
+${BASE_URL}/tasks/completetask/${task.id}
 
 Regards
 Michelle Ryder

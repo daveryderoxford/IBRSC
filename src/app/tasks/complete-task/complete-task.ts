@@ -21,6 +21,7 @@ import { FormContainerComponent } from '../../shared/components/form-container/f
 import { ToolbarComponent } from '../../shared/components/toolbar.component';
 import { CompletionUserInfo } from '../task.model';
 import { TaskService } from '../task.service';
+import { DialogsService } from '../../shared';
 
 export const MY_FORMATS = {
   parse: {
@@ -37,9 +38,9 @@ export const MY_FORMATS = {
 @Component({
   selector: 'app-complete-task',
   standalone: true,
-  imports: [FormContainerComponent, FlexModule, MatDividerModule, MatAutocompleteModule, UploadListComponent, 
-    GggoleStorageUploadComponent, ToolbarComponent, MatDatepickerModule, 
-    TextFieldModule, MatExpansionModule, MatOptionModule, ReactiveFormsModule, 
+  imports: [FormContainerComponent, FlexModule, MatDividerModule, MatAutocompleteModule, UploadListComponent,
+    GggoleStorageUploadComponent, ToolbarComponent, MatDatepickerModule,
+    TextFieldModule, MatExpansionModule, MatOptionModule, ReactiveFormsModule,
     MatFormFieldModule, MatInputModule, MatSelectModule, MatButtonModule],
   templateUrl: './complete-task.html',
   styleUrl: './complete-task.scss',
@@ -48,9 +49,19 @@ export class CompleteTaskForm {
   cs = inject(TaskService);
   router = inject(Router);
   snackbar = inject(MatSnackBar);
+  ds = inject(DialogsService);
 
   id = input.required<string>(); // Task id Route parameter
-  task = computed(() => this.cs.findById(this.id())!);
+
+  // TODO - temp workaround.  Support both the task id and completion id 
+  // specified in the route.
+  task = computed(() => {
+    let t = this.cs.findById(this.id());
+    if (!t) {
+      t = this.cs.findByNextId(this.id());
+    }
+    return t!;
+  });
 
   today = startOfDay(new Date());
 
@@ -61,14 +72,20 @@ export class CompleteTaskForm {
     attachments: new FormControl<GoogleStorageReference[]>([], { nonNullable: true })
   });
 
+  completionId = '';
+
   constructor() {
 
-    effect(() => {
-      const check = this.task();
-      if (check) {
+    effect( async () => {
+
+      console.log('CompleteTaskForm: Effect running: id' + this.task()?.id);
+
+      const task = this.task();
+      if (task) {
+        this.completionId = this.cs.getCompletionId();
         this.form.patchValue({
           date: startOfDay(new Date()),
-          submittedBy: check.responsible,
+          submittedBy: task.responsible,
           attachments: []
         });
       }
@@ -76,7 +93,7 @@ export class CompleteTaskForm {
   }
 
   storageFolder() {
-    return `attachments/${this.task().id}/${this.task().nextId}`
+    return `attachments/${this.task()?.id}/${this.completionId}`;
   }
 
   /** Get/set the attachments from the form control */
@@ -107,14 +124,14 @@ export class CompleteTaskForm {
 
     try {
 
-      this.cs.completeTask(this.task(), userInfo);
+      this.cs.completeTask(this.completionId, this.task(), userInfo);
 
       this.form.reset();
       this.router.navigate(['/tasks/completionConfirmation', this.task().id]);
 
     } catch (error: any) {
       this.snackbar.open("Error encountered completing task", "Error encountered completing task", { duration: 3000 });
-      console.log('CompletionForm. Error completing task: ' + error.toString());
+      console.log('CompleteTaskForm. Error completing task: ' + error.toString());
     }
   }
 

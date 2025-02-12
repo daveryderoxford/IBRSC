@@ -27,7 +27,7 @@
       <div class="indented">
          <app-google-storage-upload [folder]="storageFolder()" (uploaded)="attachmentUploaded($event)" />
 
-         <app-upload-list [files]="attachments" [canDelete]="!task()" (deleted)="attachmentDeleted($event)" />
+         <app-upload-list [files]="attachments" [canDelete]="true" (deleted)="attachmentDeleted($event)" />
       </div>
 
       <div fxLayout="row" fxLayoutAlign="space-between center">

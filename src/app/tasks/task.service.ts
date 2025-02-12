@@ -35,6 +35,11 @@ export class TaskService {
       return this.tasks().find(task => task.id === id);
    }
 
+   findByNextId(nextId: string | undefined): Task | undefined {
+      if (!nextId) return undefined;
+      return this.tasks().find(task => task.nextId === nextId);
+   }
+
    async update(id: string, task: Partial<Task>): Promise<void> {
       await setDoc(this.ref(id), task, { merge: true });
    }
@@ -45,7 +50,6 @@ export class TaskService {
       const d = doc(this.collectionRef);
       task.id = d.id;
       task.userId = this.auth.user()?.uid;
-      task.nextId = doc(this.completedCollectionRef).id;
 
       await setDoc(d, task);
    }
@@ -56,7 +60,7 @@ export class TaskService {
 
    private selectedTask = signal<Task | undefined>(undefined);
 
-   setSelectedTask(task: Task ) {
+   setSelectedTask(task: Task) {
       this.selectedTask.set(task);
    }
 
@@ -69,19 +73,22 @@ export class TaskService {
       }
    });
 
-   async completeTask(task: Task, userInfo: CompletionUserInfo): Promise<void> {
+   getCompletionId(): string {
+      return( doc(this.completedCollectionRef).id)
+   } 
+
+   async completeTask(completionId: string, task: Task, userInfo: CompletionUserInfo): Promise<void> {
 
       const completed: CompletedTask  = {
-         id: task.nextId,
+         id: completionId,
          taskId: task.id,
          userId: task.userId,
          ...userInfo,
       };
       
-      await setDoc(this.completedRef(task.nextId), completed);
+      await setDoc(this.completedRef(completionId), completed);
 
       // update task details with next check
-      task.nextId = doc(this.completedCollectionRef).id;
       task.lastCompleted = completed.date;
       task.nextDue = addDays(startOfDay(new Date()), task.interval);
       task.lastReminder = undefined;

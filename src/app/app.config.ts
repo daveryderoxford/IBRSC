@@ -24,7 +24,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes,
       withPreloading(PreloadAllModules),
       withComponentInputBinding(),
-      withDebugTracing(),
+   //   withDebugTracing(),
     ),
     provideFirebaseApp(() => initializeApp(firebaseConfig)),
     provideAuth(() => {
