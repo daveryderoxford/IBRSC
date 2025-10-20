@@ -10,7 +10,6 @@ import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'app-account-viewer',
-  standalone: true,
   imports: [
     ToolbarComponent,
     LineItemTableComponent,

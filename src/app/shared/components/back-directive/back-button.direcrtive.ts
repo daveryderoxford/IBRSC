@@ -3,7 +3,6 @@ import { NavigationService } from './navigation.service';
 
 @Directive({
   selector: '[navigateBack]',
-  standalone: true,
 })
 export class BackButtonDirective {
 

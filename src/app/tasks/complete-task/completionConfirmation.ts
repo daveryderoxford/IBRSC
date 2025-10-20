@@ -8,7 +8,6 @@ import { TaskService } from '../task.service';
 
 @Component({
   selector: 'app-completion-confirmation',
-  standalone: true,
   imports: [RouterModule, DatePipe, MatButtonModule, MatCardModule, ToolbarComponent],
   template: `
     <app-toolbar title="Task completed" showBack="false"/>

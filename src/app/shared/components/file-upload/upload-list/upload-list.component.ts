@@ -9,7 +9,6 @@ import { MatButtonModule } from '@angular/material/button';
   selector: 'app-upload-list',
   templateUrl: './upload-list.component.html',
   styleUrls: ['./upload-list.component.css'],
-  standalone: true,
   imports: [MatListModule, MatIconModule, MatButtonModule],
 })
 export class UploadListComponent {

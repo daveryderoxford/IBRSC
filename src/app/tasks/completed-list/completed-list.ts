@@ -13,7 +13,6 @@ import { FlexModule } from '@ngbracket/ngx-layout';
 
 @Component({
   selector: 'app-completed-list',
-  standalone: true,
   imports: [RouterModule, DatePipe, MatButtonModule, MatCardModule, ToolbarComponent, ListContainerComponent,
     MatListModule, MatDividerModule, MatProgressBarModule, FlexModule],
   templateUrl: './completed-list.html',

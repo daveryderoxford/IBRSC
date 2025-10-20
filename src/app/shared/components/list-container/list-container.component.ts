@@ -4,7 +4,6 @@ import { FlexLayoutModule, FlexModule } from '@ngbracket/ngx-layout';
 
 @Component({
   selector: 'app-list-container',
-  standalone: true,
   imports: [FlexModule, FlexLayoutModule, MatCardModule],
   templateUrl: './list-container.component.html',
   styleUrl: './list-container.component.scss'

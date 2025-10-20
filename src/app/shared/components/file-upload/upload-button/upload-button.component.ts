@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, EventEmitter, Output, input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -8,8 +8,7 @@ import { MatTooltip } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-upload-button',
-  standalone: true,
-  imports: [CommonModule, MatTooltip, MatButtonModule, MatIconModule, MatProgressBarModule, MatInputModule],
+  imports: [MatTooltip, MatButtonModule, MatIconModule, MatProgressBarModule, MatInputModule],
   templateUrl: './upload-button.component.html',
   styleUrls: ['./upload-button.component.scss']
 })

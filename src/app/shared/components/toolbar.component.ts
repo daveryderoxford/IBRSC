@@ -19,7 +19,6 @@ import { BackButtonDirective } from './back-directive/back-button.direcrtive';
    <ng-content/>
 </mat-toolbar>
     `,
-  standalone: true,
   imports: [MatToolbarModule, MatButtonModule, MatIconModule, RouterModule, BackButtonDirective],
   styles: ['.spacer { flex: 1 1 auto; }']
 

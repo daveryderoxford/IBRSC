@@ -37,7 +37,6 @@ export const MY_FORMATS = {
 
 @Component({
   selector: 'app-complete-task',
-  standalone: true,
   imports: [FormContainerComponent, FlexModule, MatDividerModule, MatAutocompleteModule, UploadListComponent,
     GggoleStorageUploadComponent, ToolbarComponent, MatDatepickerModule,
     TextFieldModule, MatExpansionModule, MatOptionModule, ReactiveFormsModule,

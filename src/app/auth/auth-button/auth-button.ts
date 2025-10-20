@@ -8,7 +8,6 @@ import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-auth-button',
-  standalone: true,
   imports: [MatButtonModule, MatIconModule, MatMenuModule, RouterLink],
   template: `
    @if (auth.loggedIn()) {

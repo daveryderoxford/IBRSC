@@ -18,7 +18,6 @@ type SortDirection = 'asc' | 'desc';
 
 @Component({
   selector: 'app-line-item-table',
-  standalone: true,
   imports: [JsonPipe, DecimalPipe, DatePipe],
   templateUrl: './line-item-table.html',
   styleUrls: ['./line-item-table.scss'],

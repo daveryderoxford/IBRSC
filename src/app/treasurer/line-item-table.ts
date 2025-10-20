@@ -6,7 +6,6 @@ import { AccountLineItem } from './line-items';
 
 @Component({
   selector: 'app-line-item-table',
-  standalone: true,
   imports: [DecimalPipe, DatePipe, MatTableModule, MatSortModule],
   templateUrl: './line-item-table.html',
   styleUrls: ['./line-item-table.scss'],

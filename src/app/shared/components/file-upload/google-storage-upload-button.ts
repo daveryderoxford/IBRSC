@@ -10,7 +10,6 @@ import { UploadButtonComponent } from './upload-button/upload-button.component';
       <app-upload-button [busy]="busy()" (files)="upload($event)"></app-upload-button>
   `,
    styles: ``,
-   standalone: true,
    imports: [UploadButtonComponent]
 })
 export class GggoleStorageUploadComponent {
