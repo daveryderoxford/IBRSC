@@ -1,0 +1,25 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.viewer-controls {
+  display: flex;
+  gap: 16px;
+  padding: 16px;
+  flex-wrap: wrap;
+}
+
+.table-container {
+  flex: 1;
+  overflow: auto;
+  padding: 0 16px 16px;
+}
+
+.placeholder {
+  text-align: center;
+  padding-top: 40px;
+  color: grey;
+}

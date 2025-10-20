@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 
-import { SignupComponent } from "./signup.component";
+import { Signup } from "./signup";
 
 xdescribe("SignupComponent", () => {
-  let component: SignupComponent;
-  let fixture: ComponentFixture<SignupComponent>;
+  let component: Signup;
+  let fixture: ComponentFixture<Signup>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [SignupComponent]
+    imports: [Signup]
 })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SignupComponent);
+    fixture = TestBed.createComponent(Signup);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

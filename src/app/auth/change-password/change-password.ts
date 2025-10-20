@@ -12,11 +12,11 @@ import { ToolbarComponent } from '../../shared/components/toolbar.component';
 
 @Component({
   selector: 'app-change-password',
-  templateUrl: './change-password.component.html',
-  styleUrls: ['./change-password.component.scss'],
+  templateUrl: './change-password.html',
+  styleUrls: ['./change-password.scss'],
   imports: [FormContainerComponent, ToolbarComponent, FlexModule, MatCardModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule]
 })
-export class ChangePasswordComponent {
+export class ChangePassword {
   private router = inject(Router);
   private formBuilder = inject(FormBuilder);
   private afAuth = inject(Auth);

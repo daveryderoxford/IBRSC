@@ -21,7 +21,7 @@ export const createUser = functions.region("europe-west2").auth.user().onCreate(
     try {
         await admin.firestore().doc('users/' + user.uid).set(userdata);
         console.log('Creating user data for ' + user.uid);
-    } catch (err) {
+    } catch (err: any) {
         console.error('createUser: Error encountered creating user data.  User Id: ' + user.uid + "  " + err.toString());
     }
 });
@@ -30,7 +30,7 @@ export const deleteUser = functions.region("europe-west2").auth.user().onDelete(
     // When a user is deleted mark the user data as archived
     try {
         await admin.firestore().doc('users/' + user.uid).update({ archived: true });
-    } catch (err) {
+    } catch (err: any) {
         console.error('deleteUser: Error encountered marking deleted user as archived.  User Id: ' + user.uid + "  " + err.toString());
     }
 });

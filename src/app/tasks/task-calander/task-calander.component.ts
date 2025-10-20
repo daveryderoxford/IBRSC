@@ -8,7 +8,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { Router, RouterModule } from '@angular/router';
 import { startOfDay } from 'date-fns';
-import { AuthButtonComponent } from "../../auth/auth-button/auth-button.component";
+import { AuthButton } from "../../auth/auth-button/auth-button";
 import { ListContainerComponent } from "../../shared/components/list-container/list-container.component";
 import { ToolbarComponent } from "../../shared/components/toolbar.component";
 import { Task } from '../task.model';
@@ -29,7 +29,7 @@ function filterTask(task: Task, filter: string): boolean {
 @Component({
   selector: 'app-task-calander',
   imports: [ToolbarComponent, MatListModule, DatePipe, ListContainerComponent, MatMenuModule,
-    AuthButtonComponent, MatButtonModule, MatIconModule, RouterModule, MatDividerModule, 
+    AuthButton, MatButtonModule, MatIconModule, RouterModule, MatDividerModule, 
     MatTooltipModule, TaskMenu, ReactiveFormsModule, MatFormFieldModule, MatInputModule,],
   templateUrl: './task-calander.component.html',
   styles: `

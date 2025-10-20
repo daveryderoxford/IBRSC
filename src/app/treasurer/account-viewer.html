@@ -1,0 +1,40 @@
+<app-toolbar title="Account Viewer"></app-toolbar>
+
+<div class="viewer-controls">
+  <mat-form-field appearance="outline">
+    <mat-label>Financial Year</mat-label>
+    <mat-select [(ngModel)]="selectedYear">
+      @for (year of financialYears; track year) {
+        <mat-option [value]="year">{{ year }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Account Line</mat-label>
+    <mat-select [(ngModel)]="selectedCatogory">
+      @for (account of catagories(); track account) {
+        <mat-option [value]="account">{{ account }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+
+</div>
+
+<div class="table-container">
+  @if (!lineItems.isLoading()) {
+      <p class="placeholder">Loading line items...</p>
+    } @else if (!lineItems.error()) {
+      <div class="error">
+        <p>Failed to load line items.</p>
+        <pre>{{ lineItems.error() | json }}</pre>
+      </div>
+    } @else {
+      @if (selectedCatogory()) {
+        <app-line-item-table [lineItems]="filteredItems()"></app-line-item-table>
+      } @else {
+        <p class="placeholder">Please select an account to view the line items.</p>
+      }
+    }
+  
+</div>

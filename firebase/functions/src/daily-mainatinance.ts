@@ -25,12 +25,14 @@ export const dailyMaintenance = onSchedule("every day 02:00", async (context) =>
    console.log(`   Found ${tasks.length} overdue tasks`);
 
    for (const task of tasks) {
-      if (!task.lastReminder || differenceInDays(task.lastReminder, today) >= reminderInterval) {
+      if (!task.lastReminder || differenceInDays(today, task.lastReminder) >= reminderInterval) {
          await mailMessage(task);
 
          const ref = admin.firestore().doc(TASKS_COLLECTION + "/" + task.id).withConverter(taskConverter);
          await ref.update({ lastReminder: today})
          
+      } else {
+         console.log(`   Reminder for ${task.name} to ${task.responsible} not  due to be sent today`);
       }
    }
 

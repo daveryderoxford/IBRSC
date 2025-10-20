@@ -28,7 +28,7 @@ import { AuthService } from '../auth.service';
   }
 `
 })
-export class AuthButtonComponent {
+export class AuthButton {
   router = inject(Router);
   auth = inject(AuthService);
 

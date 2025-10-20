@@ -1,0 +1,33 @@
+:host {
+  display: block;
+  font-family: sans-serif;
+}
+
+.totals {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 1rem;
+  font-weight: bold;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+
+  th, td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+  }
+
+  th.sortable {
+    cursor: pointer;
+    &:hover {
+      background-color: #f0f0f0;
+    }
+  }
+
+  .amount {
+    text-align: right;
+  }
+}

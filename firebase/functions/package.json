@@ -3,7 +3,7 @@
   "description": "IBRSC Firebase Clould functions",
   "main": "lib/index.js",
   "engines": {
-    "node": "22"
+    "node": "20"
   },
   "dependencies": {
     "@google-cloud/storage": "^7.7.0",
@@ -36,7 +36,7 @@
     "serve": "npm run build && firebase emulators:start --only functions",
     "shell": "npm run build && firebase functions:shell",
     "start": "npm run shell",
-    "deploy": "firebase deploy --only functions",
+    "deploy": "npm run build && firebase deploy --only functions",
     "logs": "firebase functions:log",
     "test": "mocha --require ts-node/register --reporter spec ./src/spec/*.ts"
   }

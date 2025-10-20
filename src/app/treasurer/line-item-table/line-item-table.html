@@ -1,0 +1,54 @@
+<h2>{{ accountLine() }} - {{ financialYear() }}</h2>
+
+@switch (lineItemsState()) {
+  @case ('LOADING') {
+    <p>Loading line items...</p>
+  }
+  @case ('ERRORED') {
+    <div class="error">
+      <p>Failed to load line items.</p>
+      <pre>{{ lineItemsError() | json }}</pre>
+    </div>
+  }
+  @case ('LOADED') {
+    <div class="totals">
+      <span>Total Income: {{ positiveTotal() | number:'1.2-2' }}</span>
+      <span>Total Expenditure: {{ negativeTotal() | number:'1.2-2' }}</span>
+    </div>
+
+    @if (sortedLineItems().length > 0) {
+      <table>
+        <thead>
+          <tr>
+            <th (click)="sortBy('cbId')" class="sortable">
+              ID {{ getSortIndicator('cbId') }}
+            </th>
+            <th (click)="sortBy('date')" class="sortable">
+              Date {{ getSortIndicator('date') }}
+            </th>
+            <th (click)="sortBy('amount')" class="sortable">
+              Amount {{ getSortIndicator('amount') }}
+            </th>
+            <th>Memo</th>
+            <th>From/To</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of sortedLineItems(); track item.cbId) {
+            <tr>
+              <td>{{ item.cbId }}</td>
+              <td>{{ item.date | date:'dd/MM/yyyy' }}</td>
+              <td class="amount">{{ item.amount | number:'1.2-2' }}</td>
+              <td>{{ item.memo }}</td>
+              <td>{{ item.to_from }}</td>
+              <td>{{ item.notes }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    } @else {
+      <p>No line items found for this account.</p>
+    }
+  }
+}

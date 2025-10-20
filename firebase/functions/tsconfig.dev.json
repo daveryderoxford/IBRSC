@@ -1,0 +1,13 @@
+{
+   "compilerOptions": {
+      "types": [
+         "mocha",
+         "node"
+      ],
+   },
+   "include": [
+      "src/**/*.ts",
+      "test/**/*.ts",
+      ".eslintrc.js"
+   ],
+}

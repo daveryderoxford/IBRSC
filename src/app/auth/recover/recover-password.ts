@@ -13,8 +13,8 @@ import { ToolbarComponent } from "../../shared/components/toolbar.component";
 
 @Component({
   selector: 'app-recover',
-  templateUrl: './recover.component.html',
-  styleUrls: ['./recover.component.scss'],
+  templateUrl: './recover-password.html',
+  styleUrls: ['./recover-password.scss'],
   imports: [FlexModule, ReactiveFormsModule, MatCardModule, MatFormFieldModule, MatInputModule, MatButtonModule, RouterLink, FormContainerComponent, ToolbarComponent]
 })
 export class RecoverComponent {
