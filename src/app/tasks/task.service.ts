@@ -65,8 +65,8 @@ export class TaskService {
    }
 
    completedTasks = rxResource<CompletedTask[], string>({
-      request: () => (this.selectedTask() === undefined) ? '' : this.selectedTask()!.id,
-      loader: ({ request: taskId }) => {
+      params: () => (this.selectedTask() === undefined) ? '' : this.selectedTask()!.id,
+      stream: ({ params: taskId }) => {
          console.log('TaskService: Loading completed tasks for Id:' + taskId);
          const q = query(this.completedCollectionRef, where("taskId", "==", taskId));
          return collectionData(q)

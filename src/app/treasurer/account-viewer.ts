@@ -1,55 +1,55 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { ToolbarComponent } from '../shared/components/toolbar.component';
-import { LineItemTableComponent } from './line-item-table';
-import { FinancialYear, LineItemService } from './line-items';
-import { JsonPipe } from '@angular/common';
+import { MatAnchor } from "@angular/material/button";
+import { FinancialYear, FINANCIAL_YEARS, accounts } from './model/odin';
+import { AccountLineItem, lineItemURL, processRaw } from './model/line-items';
+import { LineItemTable } from './line-item-table/line-item-table';
 
 @Component({
   selector: 'app-account-viewer',
   imports: [
     ToolbarComponent,
-    LineItemTableComponent,
+    LineItemTable,
+    ReactiveFormsModule,
     MatFormFieldModule,
     MatSelectModule,
     FormsModule,
     MatInputModule,
-    JsonPipe
-  ],
+    MatAnchor
+],
   templateUrl: './account-viewer.html',
   styleUrls: ['./account-viewer.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AccountViewer {
-  protected lineItemService = inject(LineItemService);
 
-  // Constants
-  readonly financialYears: FinancialYear[] = [
-    '2024 - 2025',
-    '2023 - 2024',
-    '2022 - 2023',
-  ];
+  financialYears = FINANCIAL_YEARS;
 
   // State Signals
-  selectedYear = signal<FinancialYear>('2023 - 2024');
+  selectedYear = signal<FinancialYear>('2023-2024');
   selectedCatogory = signal<string | undefined>(undefined);
 
+  jsonText = new FormControl('');
+
+  items = signal<AccountLineItem[]>([]);
+
   lineItemParams = computed( () => ({
-    financial_year: this.selectedYear()
-  }));
+    financial_year: this.selectedYear(),
+    account_to_show: accounts[0]
+  })); 
 
-  lineItems = this.lineItemService.getLineItemsResource(this.lineItemParams);
+  loadData() {
+    window.open(lineItemURL(this.lineItemParams()));
+  }
 
-  // Derived State (Selectors)
-  catagories = computed(() => {
-    const lines = this.lineItems.value().map( item => item.ibrsc_account_line);
-    return [...new Set(lines)].sort();
-  });
+  processData() {
+    const text = this.jsonText.value;
 
-  filteredItems = computed(() => this.lineItems.value()
-    .filter(item => item.ibrsc_account_line === this.selectedCatogory())
-  );
+    const items = processRaw(text, this.selectedYear());
+      this.items.set(items);
+  }
 }

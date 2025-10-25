@@ -1,54 +1,97 @@
-<h2>{{ accountLine() }} - {{ financialYear() }}</h2>
+<div class="filter-controls">
+  <mat-form-field appearance="outline">
+    <mat-label>Account Line</mat-label>
+    <mat-select multiple [ngModel]="selectedAccountLines()" (ngModelChange)="selectedAccountLines.set($event)">
+      @for (line of accountLines(); track line) {
+      <mat-option [value]="line">{{ line }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+  <button mat-stroked-button (click)="clearSelection()" [disabled]="selectedAccountLines().length === 0">
+    Clear
+  </button>
+  <button mat-stroked-button (click)="exportToCsv()" [disabled]="sortedLineItems().length === 0">
+    Export to CSV
+  </button>
+</div>
 
-@switch (lineItemsState()) {
-  @case ('LOADING') {
-    <p>Loading line items...</p>
-  }
-  @case ('ERRORED') {
-    <div class="error">
-      <p>Failed to load line items.</p>
-      <pre>{{ lineItemsError() | json }}</pre>
-    </div>
-  }
-  @case ('LOADED') {
-    <div class="totals">
-      <span>Total Income: {{ positiveTotal() | number:'1.2-2' }}</span>
-      <span>Total Expenditure: {{ negativeTotal() | number:'1.2-2' }}</span>
-    </div>
+<div class="totals">
+  <span>Rows: {{filteredLineItems().length}} </span>
+  <span>Total: {{ total() | number:'1.2-2' }}</span>
+  <span>Income: {{ positiveTotal() | number:'1.2-2' }}</span>
+  <span>Expenditure: {{ negativeTotal() | number:'1.2-2' }}</span>
+</div>
 
-    @if (sortedLineItems().length > 0) {
-      <table>
-        <thead>
-          <tr>
-            <th (click)="sortBy('cbId')" class="sortable">
-              ID {{ getSortIndicator('cbId') }}
-            </th>
-            <th (click)="sortBy('date')" class="sortable">
-              Date {{ getSortIndicator('date') }}
-            </th>
-            <th (click)="sortBy('amount')" class="sortable">
-              Amount {{ getSortIndicator('amount') }}
-            </th>
-            <th>Memo</th>
-            <th>From/To</th>
-            <th>Notes</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (item of sortedLineItems(); track item.cbId) {
-            <tr>
-              <td>{{ item.cbId }}</td>
-              <td>{{ item.date | date:'dd/MM/yyyy' }}</td>
-              <td class="amount">{{ item.amount | number:'1.2-2' }}</td>
-              <td>{{ item.memo }}</td>
-              <td>{{ item.to_from }}</td>
-              <td>{{ item.notes }}</td>
-            </tr>
-          }
-        </tbody>
-      </table>
-    } @else {
-      <p>No line items found for this account.</p>
+@if (categorySummaries().length > 0) {
+  <div class="category-summaries">
+    <h4>Category Summary</h4>
+    <div class="summary-grid summary-header">
+      <span>Category</span>
+      <span class="amount-header">Count</span>
+      <span class="amount-header">Net</span>
+      <span class="amount-header">Income</span>
+      <span class="amount-header">Expenditure</span>
+    </div>
+    @for(summary of categorySummaries(); track summary.category) {
+      <div class="summary-grid summary-item">
+        <span>{{summary.category}}</span>
+        <span class="amount-cell">{{summary.count}}</span>
+        <span class="amount-cell">{{summary.net | number:'1.2-2'}}</span>
+        <span class="amount-cell">{{summary.income | number:'1.2-2'}}</span>
+        <span class="amount-cell">{{summary.expenditure | number:'1.2-2'}}</span>
+      </div>
     }
-  }
+  </div>
 }
+
+<table mat-table 
+  [dataSource]="sortedLineItems()" 
+  matSort 
+  (matSortChange)="sortState.set($event)"
+  class="mat-elevation-z2">
+
+  <!-- ID Column -->
+  <ng-container matColumnDef="id">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+    <td mat-cell *matCellDef="let item">{{ item.cbId }}</td>
+  </ng-container>
+
+  <!-- Date Column -->
+  <ng-container matColumnDef="date">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header sortAction="asc">Date</th>
+    <td mat-cell *matCellDef="let item">{{ formatDate(item.date)}}</td>
+  </ng-container>
+
+  <!-- Amount Column -->
+  <ng-container matColumnDef="amount">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header class="amount-header">Amount</th>
+    <td mat-cell *matCellDef="let item" class="amount-cell">{{ item.amount | number:'1.2-2' }}</td>
+  </ng-container>
+
+  <!-- Catogory Column -->
+  <ng-container matColumnDef="catagory">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Catagory</th>
+    <td mat-cell *matCellDef="let item">{{ item.ibrsc_account_line}}</td>
+  </ng-container>
+
+  <!-- Memo Column -->
+  <ng-container matColumnDef="memo">
+    <th mat-header-cell *matHeaderCellDef>Memo</th>
+    <td mat-cell *matCellDef="let item">{{ item.memo }}</td>
+  </ng-container>
+
+  <!-- From/To Column -->
+  <ng-container matColumnDef="to_from">
+    <th mat-header-cell *matHeaderCellDef>From/To</th>
+    <td mat-cell *matCellDef="let item">{{ item.to_from }}</td>
+  </ng-container>
+
+  <!-- Notes Column -->
+  <ng-container matColumnDef="notes">
+    <th mat-header-cell *matHeaderCellDef>Notes</th>
+    <td mat-cell *matCellDef="let item">{{ item.notes }}</td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns()"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns();"></tr>
+</table>

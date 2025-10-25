@@ -1,98 +1,206 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  input,
-  signal,
-} from '@angular/core';
-import {
-  AccountLineItem,
-  FinancialYear,
-  LineItemService,
-} from '../line-items';
+import { DecimalPipe } from '@angular/common';
+import { ChangeDetectionStrategy, Component, computed, input, signal } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSortModule, Sort } from '@angular/material/sort';
+import { MatTableModule } from '@angular/material/table';
+import { format } from 'date-fns';
+import { AccountLineItem } from '../model/line-items';
 
-import { JsonPipe, DecimalPipe, DatePipe } from '@angular/common';
-
-type SortableColumn = 'cbId' | 'date' | 'amount';
-type SortDirection = 'asc' | 'desc';
+interface CategorySummary {
+  category: string;
+  net: number;
+  income: number;
+  expenditure: number;
+  count: number;
+}
 
 @Component({
   selector: 'app-line-item-table',
-  imports: [JsonPipe, DecimalPipe, DatePipe],
+  imports: [DecimalPipe,
+    MatTableModule,
+    MatSortModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    FormsModule,
+    MatButtonModule],
   templateUrl: './line-item-table.html',
   styleUrls: ['./line-item-table.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LineItemTable {
-  // Inputs
-  accountLine = input.required<string>();
-  financialYear = input.required<FinancialYear>();
+  lineItems = input.required<AccountLineItem[]>();
 
-  // State
-  private lineItemsResource = computed(() =>
-    this.lineItemService.get({ financial_year: this.financialYear() })
-  );
+  selectedAccountLines = signal<string[]>([]);
 
-  sortColumn = signal<SortableColumn>('date');
-  sortDirection = signal<SortDirection>('asc');
+  sortState = signal<Sort>({ active: '', direction: '' });
 
-  // Selectors (Derived State)
+  accountLines = computed(() => {
+    const lines = this.lineItems().map(item => item.ibrsc_account_line);
+    return [...new Set(lines)].sort();
+  });
+
   filteredLineItems = computed(() => {
-    const resource = this.lineItemsResource();
-    if (resource.state === 'LOADED') {
-      return resource.value.filter(
-        (item) => item.ibrsc_account_line === this.accountLine()
-      );
+    const selected = this.selectedAccountLines();
+    if (!selected || selected.length === 0) {
+      return this.lineItems();
     }
-    return [];
+    return this.lineItems().filter(item => selected.includes(item.ibrsc_account_line));
   });
 
   sortedLineItems = computed(() => {
-    const items = [...this.filteredLineItems()];
-    const col = this.sortColumn();
-    const dir = this.sortDirection();
-
-    return items.sort((a, b) => {
-      const valA = a[col];
-      const valB = b[col];
-
-      if (valA < valB) return dir === 'asc' ? -1 : 1;
-      if (valA > valB) return dir === 'asc' ? 1 : -1;
-      return 0;
-    });
+    return applySort(this.sortState(), this.filteredLineItems());
   });
+
+  clearSelection() {
+    this.selectedAccountLines.set([]);
+  }
+
+  displayedColumns = computed(() => this.selectedAccountLines()?.length === 1 ?
+    ['id', 'date', 'amount', 'memo', 'to_from', 'notes'] :
+    ['id', 'date', 'amount', 'catagory', 'memo', 'to_from', 'notes']);
+
+  total = computed(() =>
+    this.filteredLineItems()
+      .reduce((sum, item) => sum + item.amount, 0)
+  );
 
   positiveTotal = computed(() =>
     this.filteredLineItems()
-      .filter((item: AccountLineItem) => item.amount > 0)
-      .filter((item: AccountLineItem) => item.amount > 0)
-      .reduce((sum: number, item) => sum + Number(item.amount), 0)
+      .filter((item) => item.amount > 0)
+      .reduce((sum, item) => sum + item.amount, 0)
   );
 
   negativeTotal = computed(() =>
     this.filteredLineItems()
       .filter((item) => item.amount < 0)
-      .reduce((sum, item) => sum + Number(item.amount), 0)
+      .reduce((sum, item) => sum + item.amount, 0)
   );
 
-  // For template access
-  lineItemsState = computed(() => this.lineItemsResource().state);
-  lineItemsError = computed(() => this.lineItemsResource().error);
+  categorySummaries = computed<CategorySummary[]>(() => {
+    const selectedLines = this.selectedAccountLines();
+    const allItems = this.filteredLineItems();
 
-  constructor(private lineItemService: LineItemService) {}
+    if (selectedLines.length <= 1) {
+      return [];
+    }
 
-  // Actions
-  sortBy(column: SortableColumn): void {
-    if (this.sortColumn() === column) {
-      this.sortDirection.update((dir) => (dir === 'asc' ? 'desc' : 'asc'));
-    } else {
-      this.sortColumn.set(column);
-      this.sortDirection.set('asc');
+    return selectedLines.map(category => {
+      const categoryItems = allItems.filter(item => item.ibrsc_account_line === category);
+
+      const income = categoryItems.filter(i => i.amount > 0).reduce((sum, i) => sum + i.amount, 0);
+      const expenditure = categoryItems.filter(i => i.amount < 0).reduce((sum, i) => sum + i.amount, 0);
+
+      return {
+        category,
+        income,
+        expenditure,
+        net: income + expenditure,
+        count: categoryItems.length,
+      };
+    }).sort((a, b) => a.category.localeCompare(b.category));
+  });
+
+  formatDate(value: Date): string {
+    try {
+      return format(value, 'dd-MM-yy');
+    } catch (e) {
+      const val = value ? value.toString() : 'Value undefned';
+      console.log('Date transfore error: ' + val);
+      return val;
     }
   }
 
-  getSortIndicator(column: SortableColumn): string {
-    if (this.sortColumn() !== column) return '';
-    return this.sortDirection() === 'asc' ? '▲' : '▼';
+  exportToCsv() {
+    const summaries = this.categorySummaries();
+    const details = this.sortedLineItems();
+    const columns = this.displayedColumns();
+    let csvContent = '';
+
+    // Helper to escape CSV values
+    const escapeCsv = (value: any): string => {
+      if (value == null) {
+        return '';
+      }
+      const strValue = String(value);
+      if (strValue.includes(',') || strValue.includes('"') || strValue.includes('\n')) {
+        return `"${strValue.replace(/"/g, '""')}"`;
+      }
+      return strValue;
+    };
+
+    // Add Category Summaries
+    if (summaries.length > 0) {
+      csvContent += 'Category,Count,Net,Income,Expenditure\n';
+      summaries.forEach(summary => {
+        const row = [
+          summary.category,
+          summary.count,
+          summary.net,
+          summary.income,
+          summary.expenditure
+        ].map(escapeCsv).join(',');
+        csvContent += row + '\n';
+      });
+      csvContent += '\n'; // Add a blank line for separation
+    }
+
+    // Add Detailed Line Items
+    if (details.length > 0) {
+      csvContent += columns.join(',') + '\n';
+      details.forEach(item => {
+        const row = columns.map(col => {
+          switch (col) {
+            case 'id': return item.cbId;
+            case 'date': return this.formatDate(item.date);
+            case 'catagory': return item.ibrsc_account_line;
+            default: return item[col as keyof AccountLineItem];
+          }
+        }).map(escapeCsv).join(',');
+        csvContent += row + '\n';
+      });
+    }
+
+    // Create and download the file
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    link.setAttribute('href', url);
+    link.setAttribute('download', `account_export.csv`);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   }
+}
+
+function applySort(sort: Sort, data: AccountLineItem[]) {
+
+  const sortedData = [...data];
+  if (!sort.active || sort.direction === '') {
+    return sortedData;
+  }
+
+  sortedData.sort((a, b) => {
+    const isAsc = sort.direction === 'asc';
+    switch (sort.active) {
+      case 'amount':
+        return compare(a.amount, b.amount, isAsc);
+      case 'date':
+        return compare(a.date.toISOString(), b.date.toISOString(), isAsc);
+      case 'id':
+        return compare(a.cbId, b.cbId, isAsc);
+      case 'catagory':
+        return compare(a.ibrsc_account_line, b.ibrsc_account_line, isAsc);
+      default:
+        return 0;
+    }
+  });
+  return sortedData;
+}
+
+function compare(a: number | string, b: number | string, isAsc: boolean) {
+  return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
 }

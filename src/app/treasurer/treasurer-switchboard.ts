@@ -10,13 +10,15 @@ import { ToolbarComponent } from '../shared/components/toolbar.component';
     <app-toolbar title="System admin"/>
     <div class=container>
       <div class=buttons>
-        <a matButton='tonal' routerLink="/sys-admin/users">
-            User administration
+        <a matButton='tonal' routerLink="/treasurer/accounts">
+           View data
         </a>
-        <button matButton='tonal' (click)="rebuildRGCache()" [disabled]="busy()">
-          Rebuild routegadget index
-        </button>
       </div>
+      
+      <button matButton='tonal' (click)="loadData()">
+        Load Data
+      </button>
+     
       <span class="message">
          {{msgText()}}
       </span>
@@ -53,18 +55,22 @@ import { ToolbarComponent } from '../shared/components/toolbar.component';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SysAdminSwitchboard {
+export class TreasurerSwitchboard {
 
   msgText = signal('');
 
   busy = signal(false);
+
+  loadData() {
+    window.open("https://membership.islandbarn.org.uk/accounts/account_line_summary.json?financial_year=2023-2024&account_to_show=1&opening_balance=undefined&deferred=");
+  }
 
   async rebuildRGCache() {
     console.log('Sys-admin: Rebuilding routegagdget cache...');
     this.busy.set(true);
 
     try {
-     
+
     } catch (error: any) {
       // Getting the Error details.
       const code = error.code;

@@ -1,15 +1,18 @@
 import { Routes } from '@angular/router';
-import { SysAdminSwitchboard } from './treasurer-switchboard';
-import { getFunctions, provideFunctions } from '@angular/fire/functions';
+import { TreasurerSwitchboard } from './treasurer-switchboard';
+import { AccountViewer } from './account-viewer';
 
 export const TREASURER_ROUTES: Routes = [
    { path: '', redirectTo: 'switchboard', pathMatch: 'full' },
    {
       path: 'switchboard',
-      component: SysAdminSwitchboard,
-      title: 'System Administration',
-      providers: [
-         provideFunctions(() => getFunctions()),
-      ],
+      component: TreasurerSwitchboard,
+      title: 'Treasurer switchboard',
    }, 
+   {
+      path: 'accounts',
+      component: AccountViewer,
+      title: 'Accounts',
+   }, 
+
 ];

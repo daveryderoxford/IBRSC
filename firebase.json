@@ -20,15 +20,12 @@
     }
   ],
   "hosting": {
-    "source": ".",
+    "public": "dist/ibrsc/browser",
     "ignore": [
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
     ],
-    "frameworksBackend": {
-      "region": "europe-west2"
-    },
     "rewrites": [
       {
         "source": "**",
