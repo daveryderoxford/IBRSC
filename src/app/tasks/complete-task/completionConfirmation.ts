@@ -10,7 +10,7 @@ import { TaskService } from '../task.service';
   selector: 'app-completion-confirmation',
   imports: [RouterModule, DatePipe, MatButtonModule, MatCardModule, ToolbarComponent],
   template: `
-    <app-toolbar title="Task completed" showBack="false"/>
+    <app-toolbar title="Task completed"/>
     <div class=center>
     <mat-card class="card" appearance="outlined">
       <mat-card-header>

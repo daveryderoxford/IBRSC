@@ -1,1 +1,25 @@
-<router-outlet/>
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer class="sidenav" mode="over">
+    <mat-toolbar>Menu</mat-toolbar>
+    <mat-nav-list>
+      <a mat-list-item routerLink="/treasurer" (click)="drawer.close()">Treasurer</a>
+      <a mat-list-item routerLink="/tasks" (click)="drawer.close()">Tasks</a>
+      <mat-divider></mat-divider>
+      @if (authService.loggedIn()) {
+        <a mat-list-item routerLink="/user" (click)="drawer.close()">Edit User</a>
+        <a mat-list-item routerLink="/auth/change-password" (click)="drawer.close()">Change Password</a>
+        <a mat-list-item (click)="logout()">Logout</a>
+      } @else {
+        <a mat-list-item
+           routerLink="/auth/login"
+           (click)="drawer.close()"
+           >
+           Login
+        </a>
+      }
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

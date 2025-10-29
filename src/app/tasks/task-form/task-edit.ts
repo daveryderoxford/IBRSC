@@ -10,7 +10,7 @@ import { DialogsService } from '../../shared';
 @Component({
    selector: 'app-task-edit',
    template: `
-   <app-toolbar title="Edit Task" />
+   <app-toolbar title="Edit Task" showBack/>
 
     <app-task-form [task]="task()" (submitted)="submitted($event)" (deleted)="deleted($event)"></app-task-form>
   `,

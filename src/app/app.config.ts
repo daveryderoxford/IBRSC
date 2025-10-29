@@ -8,6 +8,7 @@ import { getStorage, provideStorage } from '@angular/fire/storage';
 import { DateFnsAdapter, MAT_DATE_FNS_FORMATS, provideDateFnsAdapter } from '@angular/material-date-fns-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { PreloadAllModules, provideRouter, withComponentInputBinding, withDebugTracing, withPreloading } from '@angular/router';
@@ -65,6 +66,7 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom(
       MatDialogModule,
       MatSnackBarModule,
+      MatSidenavModule
     ),
   ]
 };

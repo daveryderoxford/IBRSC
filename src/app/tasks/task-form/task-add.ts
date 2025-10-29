@@ -9,7 +9,7 @@ import { TaskForm } from './task-form';
 @Component({
    selector: 'app-task-add',
    template: `
-   <app-toolbar title="Add Task" />
+   <app-toolbar title="Add Task" showBack/>
     <app-task-form (submitted)="submitted($event)"></app-task-form>
   `,
    styles: [],

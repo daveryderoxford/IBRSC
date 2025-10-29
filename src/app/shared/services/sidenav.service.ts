@@ -1,28 +1,25 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 
-@Injectable( {
-   providedIn: 'root'
-} )
+@Injectable({
+  providedIn: 'root'
+})
 export class SidenavService {
+  #sidenav = signal<MatSidenav | undefined>(undefined);
 
-   private sidenav!: MatSidenav;
-
-   constructor () { }
-
-   public setSidenav( sidenav: MatSidenav ) {
-      this.sidenav = sidenav;
-   }
-
-   public open() {
-      return this.sidenav.open();
-   }
-
-   public close() {
-      return this.sidenav.close();
-   }
-
-   public toggle(): void {
-      this.sidenav.toggle();
-   }
+  setSidenav(sidenav: MatSidenav) {
+    this.#sidenav.set(sidenav);
+  }
+  
+  open() {
+    return this.#sidenav()?.open();
+  }
+  
+  close() {
+    return this.#sidenav()?.close();
+  }
+  
+  toggle(): void {
+    this.#sidenav()?.toggle();
+  }
 }

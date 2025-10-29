@@ -1,9 +1,10 @@
-import { Component, booleanAttribute, input } from '@angular/core';
+import { Component, booleanAttribute, inject, input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule } from '@angular/router';
 import { BackButtonDirective } from './back-directive/back-button.direcrtive';
+import { SidenavService } from '../services/sidenav.service';
 
 @Component({
   selector: 'app-toolbar',
@@ -13,7 +14,14 @@ import { BackButtonDirective } from './back-directive/back-button.direcrtive';
       <button mat-icon-button navigateBack>
         <mat-icon>arrow_back</mat-icon>
       </button>
-   }
+   } @else {
+    <button
+      mat-icon-button
+      (click)="sidenavService.toggle()"
+      aria-label="Toggle sidenav">
+      <mat-icon>menu</mat-icon>
+    </button>
+  }
    {{title()}}
    <div class=spacer></div>
    <ng-content/>
@@ -26,9 +34,8 @@ import { BackButtonDirective } from './back-directive/back-button.direcrtive';
 export class ToolbarComponent {
 
   title = input('');
+  showBack = input(false, { transform: booleanAttribute });
 
-  showBack = input(true, { transform: booleanAttribute });
-
-  constructor() { }
+  protected sidenavService = inject(SidenavService);
 
 }
