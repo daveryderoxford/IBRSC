@@ -1,13 +1,17 @@
 import { DecimalPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, input, signal } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
 import { MatSortModule, Sort } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { format } from 'date-fns';
 import { AccountLineItem } from '../model/line-items';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { debounceTime, distinctUntilChanged, startWith } from 'rxjs';
+import { MatIconModule } from '@angular/material/icon';
 
 interface CategorySummary {
   category: string;
@@ -24,14 +28,26 @@ interface CategorySummary {
     MatSortModule,
     MatFormFieldModule,
     MatSelectModule,
+    MatInputModule,
     FormsModule,
-    MatButtonModule],
+    MatButtonModule,
+    ReactiveFormsModule,
+    MatIconModule],
   templateUrl: './line-item-table.html',
   styleUrls: ['./line-item-table.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LineItemTable {
   lineItems = input.required<AccountLineItem[]>();
+
+  searchControl = new FormControl('');
+  searchTerm = toSignal(
+    this.searchControl.valueChanges.pipe(
+      startWith(''),
+      debounceTime(300),
+      distinctUntilChanged()
+    ), { initialValue: '' }
+  );
 
   selectedAccountLines = signal<string[]>([]);
 
@@ -43,11 +59,24 @@ export class LineItemTable {
   });
 
   filteredLineItems = computed(() => {
+    const searchTerm = this.searchTerm()?.toLowerCase() ?? '';
     const selected = this.selectedAccountLines();
+    const items = this.lineItems();
+
+    const filteredBySearch = !searchTerm ? items : items.filter(item =>
+      (item.cbId?.toString() ?? '').includes(searchTerm) ||
+      (this.formatDate(item.date)?.toLowerCase() ?? '').includes(searchTerm) ||
+      (item.amount?.toString() ?? '').includes(searchTerm) ||
+      (item.ibrsc_account_line?.toLowerCase() ?? '').includes(searchTerm) ||
+      (item.memo?.toLowerCase() ?? '').includes(searchTerm) ||
+      (item.to_from?.toLowerCase() ?? '').includes(searchTerm) ||
+      (item.notes?.toLowerCase() ?? '').includes(searchTerm)
+    );
+
     if (!selected || selected.length === 0) {
-      return this.lineItems();
+      return filteredBySearch;
     }
-    return this.lineItems().filter(item => selected.includes(item.ibrsc_account_line));
+    return filteredBySearch.filter(item => selected.includes(item.ibrsc_account_line));
   });
 
   sortedLineItems = computed(() => {

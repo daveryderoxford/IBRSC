@@ -4,8 +4,8 @@
 https://membership.islandbarn.org.uk/accounts/account_line_summary.json?financial_year=2023%20-%202024
  */
 
-import { isAfter, isBefore, isWithinInterval, parse } from 'date-fns';
-import { Account, BASE_URL,  FinancialYear } from './odin';
+import { isWithinInterval, parse } from 'date-fns';
+import { Account, BASE_URL, FinancialYear } from './odin';
 
 export interface AccountLineItem {
    ibrsc_account_line: string;
@@ -54,15 +54,14 @@ export function processRaw(text: string| null, year: FinancialYear): AccountLine
       const parsed = raw.map<AccountLineItem>(r => ({
         ...r,
         amount: Number.parseFloat(r.amount),
-        date: parse(r.date, 'dd/MM/yyyy', new Date()) // "12/09/2024"
+        date: parse(r.date, 'dd/MM/yyyy', new Date()) // Example Odin date format "12/09/2024"
       }));
 
-      // Filter out the 'extra day' that is present in the 
+      // Filter out the 'extra day' that is present at the end of the year for line item data
       const {start, end} = getFinancialYearDates(year);
-
       const filtered = parsed.filter(item => isWithinInterval(item.date, {start, end}));
 
-      return filtered.sort((a, b) => Number.parseInt(a.cbId) - Number.parseInt(b.cbId))
+      return filtered.sort((a, b) => Number.parseInt(a.cbId) - Number.parseInt(b.cbId));
     }
 }
 

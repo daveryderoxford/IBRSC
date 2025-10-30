@@ -1,5 +1,14 @@
 <div class="filter-controls">
   <mat-form-field appearance="outline">
+    <mat-label>Search</mat-label>
+    <input matInput [formControl]="searchControl" placeholder="Search">
+    @if(searchControl.value) {
+      <button mat-icon-button matSuffix (click)="searchControl.setValue('')" aria-label="Clear search">
+        <mat-icon>close</mat-icon>
+      </button>
+    }
+  </mat-form-field>
+  <mat-form-field appearance="outline">
     <mat-label>Account Line</mat-label>
     <mat-select multiple [ngModel]="selectedAccountLines()" (ngModelChange)="selectedAccountLines.set($event)">
       @for (line of accountLines(); track line) {
@@ -44,54 +53,56 @@
   </div>
 }
 
-<table mat-table 
-  [dataSource]="sortedLineItems()" 
-  matSort 
-  (matSortChange)="sortState.set($event)"
-  class="mat-elevation-z2">
+<div class="table-container">
+  <table mat-table 
+    [dataSource]="sortedLineItems()" 
+    matSort 
+    (matSortChange)="sortState.set($event)"
+    class="mat-elevation-z2">
 
-  <!-- ID Column -->
-  <ng-container matColumnDef="id">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
-    <td mat-cell *matCellDef="let item">{{ item.cbId }}</td>
-  </ng-container>
+    <!-- ID Column -->
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+      <td mat-cell *matCellDef="let item">{{ item.cbId }}</td>
+    </ng-container>
 
-  <!-- Date Column -->
-  <ng-container matColumnDef="date">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header sortAction="asc">Date</th>
-    <td mat-cell *matCellDef="let item">{{ formatDate(item.date)}}</td>
-  </ng-container>
+    <!-- Date Column -->
+    <ng-container matColumnDef="date">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header sortAction="asc">Date</th>
+      <td mat-cell *matCellDef="let item">{{ formatDate(item.date)}}</td>
+    </ng-container>
 
-  <!-- Amount Column -->
-  <ng-container matColumnDef="amount">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header class="amount-header">Amount</th>
-    <td mat-cell *matCellDef="let item" class="amount-cell">{{ item.amount | number:'1.2-2' }}</td>
-  </ng-container>
+    <!-- Amount Column -->
+    <ng-container matColumnDef="amount">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header class="amount-header">Amount</th>
+      <td mat-cell *matCellDef="let item" class="amount-cell">{{ item.amount | number:'1.2-2' }}</td>
+    </ng-container>
 
-  <!-- Catogory Column -->
-  <ng-container matColumnDef="catagory">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Catagory</th>
-    <td mat-cell *matCellDef="let item">{{ item.ibrsc_account_line}}</td>
-  </ng-container>
+    <!-- Catogory Column -->
+    <ng-container matColumnDef="catagory">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Catagory</th>
+      <td mat-cell *matCellDef="let item">{{ item.ibrsc_account_line}}</td>
+    </ng-container>
 
-  <!-- Memo Column -->
-  <ng-container matColumnDef="memo">
-    <th mat-header-cell *matHeaderCellDef>Memo</th>
-    <td mat-cell *matCellDef="let item">{{ item.memo }}</td>
-  </ng-container>
+    <!-- Memo Column -->
+    <ng-container matColumnDef="memo">
+      <th mat-header-cell *matHeaderCellDef>Memo</th>
+      <td mat-cell *matCellDef="let item">{{ item.memo }}</td>
+    </ng-container>
 
-  <!-- From/To Column -->
-  <ng-container matColumnDef="to_from">
-    <th mat-header-cell *matHeaderCellDef>From/To</th>
-    <td mat-cell *matCellDef="let item">{{ item.to_from }}</td>
-  </ng-container>
+    <!-- From/To Column -->
+    <ng-container matColumnDef="to_from">
+      <th mat-header-cell *matHeaderCellDef>From/To</th>
+      <td mat-cell *matCellDef="let item">{{ item.to_from }}</td>
+    </ng-container>
 
-  <!-- Notes Column -->
-  <ng-container matColumnDef="notes">
-    <th mat-header-cell *matHeaderCellDef>Notes</th>
-    <td mat-cell *matCellDef="let item">{{ item.notes }}</td>
-  </ng-container>
-
-  <tr mat-header-row *matHeaderRowDef="displayedColumns()"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns();"></tr>
-</table>
+    <!-- Notes Column -->
+    <ng-container matColumnDef="notes">
+      <th mat-header-cell *matHeaderCellDef>Notes</th>
+      <td mat-cell *matCellDef="let item">{{ item.notes }}</td>
+    </ng-container>
+    
+    <tr mat-header-row *matHeaderRowDef="displayedColumns(); sticky: true"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns();"></tr>
+  </table>
+</div>

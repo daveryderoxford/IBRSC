@@ -51,3 +51,12 @@ table.mat-table {
 .amount-cell {
   text-align: right;
 }
+
+.table-container {
+  position: relative;
+  /* Adjust this height based on your layout. 
+     calc(100vh - ...) is a good way to make it responsive to viewport height. */
+  height: calc(100vh - 350px);
+  overflow: auto;
+  margin-top: 16px;
+}
