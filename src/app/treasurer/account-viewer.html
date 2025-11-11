@@ -1,32 +1,13 @@
-<app-toolbar title="Account Viewer"></app-toolbar>
-
-<div class="viewer-controls">
-  <mat-form-field appearance="outline">
-    <mat-label>Financial Year</mat-label>
-    <mat-select [(ngModel)]="selectedYear">
-      @for (year of financialYears; track year) {
-        <mat-option [value]="year">{{ year }}</mat-option>
-      }
-    </mat-select>
-  </mat-form-field>
-
-  <button matButton="tonal" (click)="loadData()">
-     Load data
+<app-toolbar title="Account Viewer">
+  <button mat-stroked-button (click)="openLoadDataDialog()">
+    Load Account Data
   </button>
-
-</div>
-
-<div>
-  <mat-form-field>
-    <mat-label>Odin JSON</mat-label>
-    <textarea matInput [formControl]="jsonText"></textarea>
-  </mat-form-field>
-
-  <button matButton="tonal" (click)="processData()">
-    Process 
-  </button>
-</div>
+</app-toolbar>
 
 <div class="table-container">
+  @if (items().length > 0) {
   <app-line-item-table [lineItems]="items()"></app-line-item-table>
+  } @else {
+  <div class="placeholder">Click "Load Account Data" to get started.</div>
+  }
 </div>

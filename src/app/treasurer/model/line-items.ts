@@ -82,3 +82,12 @@ export function getFinancialYearDates(fy: FinancialYear): FinancialYearDates {
   const end = new Date(startYear + 1, 8, 30); // 8 is September.
   return { start, end };
 }
+
+/** Save line items */
+export function saveLineItems(items: AccountLineItem[]) {
+   
+}
+
+export async function readLineItems(fy: FinancialYear): Promise<AccountLineItem[]> {
+   return Promise.resolve([]);
+}

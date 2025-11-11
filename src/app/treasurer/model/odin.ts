@@ -6,14 +6,13 @@ https://membership.islandbarn.org.uk/accounts/account_line_summary.json?financia
 
 export const BASE_URL = 'https://membership.islandbarn.org.uk/accounts/account_line_summary.json';
 
-export type FinancialYear = '2024-2025' | '2023-2024' | '2022-2023';
+export type FinancialYear = '2025-2026' | '2024-2025' | '2023-2024' | '2022-2023';
 export const FINANCIAL_YEARS: FinancialYear[] = [
+   '2025-2026',
    '2024-2025',
    '2023-2024',
    '2022-2023',
 ];
-
-
 
 export interface Account {
    id: string;
