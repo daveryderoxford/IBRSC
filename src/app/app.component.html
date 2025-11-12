@@ -2,7 +2,7 @@
   <mat-sidenav #drawer class="sidenav" mode="over">
     <mat-toolbar>Menu</mat-toolbar>
     <mat-nav-list>
-      <a mat-list-item routerLink="/treasurer" (click)="drawer.close()">Treasurer</a>
+      <a mat-list-item routerLink="/treasurer/accounts" (click)="drawer.close()">Treasurer</a>
       <a mat-list-item routerLink="/tasks" (click)="drawer.close()">Tasks</a>
       <mat-divider></mat-divider>
       @if (authService.loggedIn()) {
