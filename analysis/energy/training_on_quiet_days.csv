@@ -1,0 +1,47 @@
+# Club training days with hours labelled little_activity (rates in kWh/h; totals in kWh)
+date,weekday,descriptions,little_activity_hours,little_activity_mean_kWh_per_hour,little_activity_max_kWh,little_activity_total_kWh
+2026-07-21,Tuesday,TrySail RYA Level 1 and Level 2,11,1.875,4.123,20.620
+2026-06-27,Saturday,Adult RYA Powerboat Level 2 course; LASER SKILLS - Saturday Lasers 27/06,15,1.581,7.104,23.711
+2026-09-19,Saturday,RYA RACE COACH LEVEL 3 - TRAINING ROOM; Club Boat Hire - Topper Open 19/09,14,1.518,4.777,21.245
+2026-08-22,Saturday,Introduction To Club Racing,15,1.333,6.969,20.002
+2026-05-30,Saturday,LASER SKILLS - Saturday Lasers 30/05,18,1.283,3.963,23.090
+2026-04-27,Monday,Topper Racing Skills 1 (26/04/26) - Boat Owner,16,1.213,3.556,19.412
+2026-05-02,Saturday,200/400 Training AK,15,1.184,3.400,17.757
+2026-09-07,Monday,Dinghy Coach (GPS App) Demo 1930,24,1.163,2.751,27.907
+2026-07-05,Sunday,Oppie Beginners 1 (RYA Stage 1) - 9.30am; Oppie Beginners 2 (RYA Stage 1) - 11:15am; Topper Beginners (RYA Stages 1 & 2) - 2:00pm; Topper Intermediates (RYA Stages 3 & Start Racing) - 2:00pm; Oppie / Optimist Intermediates (RYA Stage 2 & 3) - 10am; Double Handers (RYA Stage 4 & Sailing with Spinnakers) - 2:00pm; Topper Racing Skills (RYA Pathway Club) - 2:00pm; Topper Racing Skills 11 (Commodore's day) - Boat Owner,14,1.150,2.422,16.102
+2026-10-10,Saturday,Adult RYA Safety Boat (PB2 required),15,1.117,5.434,16.756
+2026-07-25,Saturday,RYA Start Racing,18,1.111,2.858,19.999
+2026-08-29,Saturday,LASER SKILLS - Saturday Lasers 29/08,18,1.085,5.983,19.531
+2026-09-20,Sunday,RYA RACE COACH LEVEL 3 - TRAINING ROOM,14,1.085,4.959,15.183
+2026-06-21,Sunday,Oppie Beginners 1 (RYA Stage 1) - 9.30am; Oppie Beginners 2 (RYA Stage 1) - 11:15am; Topper Beginners (RYA Stages 1 & 2) - 2:00pm; Topper Intermediates (RYA Stages 3 & Start Racing) - 2:00pm; Oppie / Optimist Intermediates (RYA Stage 2 & 3) - 10am; Double Handers (RYA Stage 4 & Sailing with Spinnakers) - 2:00pm; Topper Racing Skills (RYA Pathway Club) - 2:00pm; Topper Racing Skills 9 (21/06/26) - Boat Owner,14,1.071,2.836,14.994
+2026-04-08,Wednesday,Topper Squad Training; Topper Squad Training 08/04,16,1.062,3.809,16.999
+2026-04-25,Saturday,Safety Boat Refresher (5 PBs in use),18,1.040,5.867,18.714
+2026-08-01,Saturday,RYA Start Racing,15,1.023,3.879,15.349
+2026-05-09,Saturday,TrySail RYA Level 1 and Level 2,15,1.019,4.212,15.287
+2026-10-11,Sunday,Adult RYA Safety Boat (PB2 required); Topper Autumn Racing Skills 3 (11/10/26),14,1.013,6.451,14.186
+2026-07-12,Sunday,Oppie Beginners 1 (RYA Stage 1) - 9.30am; Oppie Beginners 2 (RYA Stage 1) - 11:15am; Topper Beginners (RYA Stages 1 & 2) - 2:00pm; Topper Intermediates (RYA Stages 3 & Start Racing) - 2:00pm; Oppie / Optimist Intermediates (RYA Stage 2 & 3) - 10am; Double Handers (RYA Stage 4 & Sailing with Spinnakers) - 2:00pm; Topper Racing Skills (RYA Pathway Club) - 2:00pm,14,1.001,1.223,14.015
+2026-07-31,Friday,Topper Racing Skills 2 (03/05/26) - Boat Owner; Topper Racing Skills 3 (10/05/26) - Boat Owner; Topper Racing Skills 4 (17/05/26) - Boat Owner; Topper Racing Skills 5 (24/05/26) - Boat Owner; Topper Racing Skills 7 (07/06/26) - Boat Owner; Topper Racing Skills 8 (14/06/26) - Boat Owner; Topper Racing Skills 9 (21/06/26) - Boat Owner; Topper Racing Skills 10 (28/06/26) - Boat Owner,16,0.991,3.939,15.854
+2026-07-07,Tuesday,TrySail RYA Level 1 and Level 2,11,0.990,1.789,10.892
+2026-04-18,Saturday,RYA RACE COACH LEVEL 3 - TRAINING ROOM; LASER SKILLS - Saturday Lasers 18/04,18,0.956,2.829,17.208
+2026-07-04,Saturday,Adult RYA Powerboat Level 2 course,15,0.950,1.687,14.248
+2026-04-07,Tuesday,Topper Squad Training,16,0.938,3.468,15.014
+2026-06-28,Sunday,Oppie Beginners 1 (RYA Stage 1) - 9.30am; Oppie Beginners 2 (RYA Stage 1) - 11:15am; Topper Beginners (RYA Stages 1 & 2) - 2:00pm; Topper Intermediates (RYA Stages 3 & Start Racing) - 2:00pm; Oppie / Optimist Intermediates (RYA Stage 2 & 3) - 10am; Double Handers (RYA Stage 4 & Sailing with Spinnakers) - 2:00pm; Topper Racing Skills (RYA Pathway Club) - 2:00pm; Topper Racing Skills 10 (28/06/26) - Boat Owner; Adult RYA Powerboat 2 - DIRECT ASSESSMENT,14,0.936,1.325,13.111
+2026-05-24,Sunday,Oppie Beginners 1 (RYA Stage 1) - 9.30am; Oppie Beginners 2 (RYA Stage 1) - 11:15am; Topper Beginners (RYA Stages 1 & 2) - 2:00pm; Topper Intermediates (RYA Stages 3 & Start Racing) - 2:00pm; Oppie / Optimist Intermediates (RYA Stage 2 & 3) - 10am; Double Handers (RYA Stage 4 & Sailing with Spinnakers) - 2:00pm; Topper Racing Skills (RYA Pathway Club) - 2:00pm; Topper Racing Skills 5 (24/05/26) - Boat Owner,14,0.909,1.199,12.728
+2026-05-03,Sunday,Oppie Beginners 1 (RYA Stage 1) - 9.30am; Oppie Beginners 2 (RYA Stage 1) - 11:15am; Topper Beginners (RYA Stages 1 & 2) - 2:00pm; Topper Intermediates (RYA Stages 3 & Start Racing) - 2:00pm; Oppie / Optimist Intermediates (RYA Stage 2 & 3) - 10am; Double Handers (RYA Stage 4 & Sailing with Spinnakers) - 2:00pm; Topper Racing Skills (RYA Pathway Club) - 2:00pm; Topper Racing Skills 2 (03/05/26) - Boat Owner; Topper Racing Skills 3 (10/05/26) - Boat Owner,14,0.862,3.168,12.067
+2026-07-14,Tuesday,TrySail RYA Level 1 and Level 2,11,0.844,1.874,9.288
+2026-06-23,Tuesday,TrySail RYA Level 1 and Level 2,18,0.837,2.509,15.065
+2026-05-10,Sunday,Oppie Beginners 1 (RYA Stage 1) - 9.30am; Oppie Beginners 2 (RYA Stage 1) - 11:15am; Topper Beginners (RYA Stages 1 & 2) - 2:00pm; Topper Intermediates (RYA Stages 3 & Start Racing) - 2:00pm; Oppie / Optimist Intermediates (RYA Stage 2 & 3) - 10am; Double Handers (RYA Stage 4 & Sailing with Spinnakers) - 2:00pm; Topper Racing Skills (RYA Pathway Club) - 2:00pm,14,0.796,2.413,11.143
+2026-05-31,Sunday,Oppie Beginners 1 (RYA Stage 1) - 9.30am; Oppie Beginners 2 (RYA Stage 1) - 11:15am; Topper Beginners (RYA Stages 1 & 2) - 2:00pm; Topper Intermediates (RYA Stages 3 & Start Racing) - 2:00pm; Oppie / Optimist Intermediates (RYA Stage 2 & 3) - 10am; Double Handers (RYA Stage 4 & Sailing with Spinnakers) - 2:00pm; Topper Racing Skills (RYA Pathway Club) - 2:00pm; Adult RYA Powerboat 2 - DIRECT ASSESSMENT,14,0.786,1.687,11.011
+2026-06-16,Tuesday,TrySail RYA Level 1 and Level 2,18,0.782,1.485,14.072
+2026-05-17,Sunday,Oppie Beginners 1 (RYA Stage 1) - 9.30am; Oppie Beginners 2 (RYA Stage 1) - 11:15am; Topper Beginners (RYA Stages 1 & 2) - 2:00pm; Topper Intermediates (RYA Stages 3 & Start Racing) - 2:00pm; Oppie / Optimist Intermediates (RYA Stage 2 & 3) - 10am; Double Handers (RYA Stage 4 & Sailing with Spinnakers) - 2:00pm; Topper Racing Skills (RYA Pathway Club) - 2:00pm; Topper Racing Skills 4 (17/05/26) - Boat Owner,14,0.766,1.962,10.721
+2026-04-26,Sunday,Oppie Beginners 1 (RYA Stage 1) - 9.30am; Oppie Beginners 2 (RYA Stage 1) - 11:15am; Topper Beginners (RYA Stages 1 & 2) - 2:00pm; Topper Intermediates (RYA Stages 3 & Start Racing) - 2:00pm; Oppie / Optimist Intermediates (RYA Stage 2 & 3) - 10am; Double Handers (RYA Stage 4 & Sailing with Spinnakers) - 2:00pm; Topper Racing Skills (RYA Pathway Club) - 2:00pm,14,0.697,0.970,9.754
+2026-06-30,Tuesday,TrySail RYA Level 1 and Level 2,18,0.696,2.261,12.529
+2026-09-27,Sunday,Topper Autumn Racing Skills 1 (27/09/26),14,0.692,1.662,9.687
+2026-06-14,Sunday,Oppie Beginners 1 (RYA Stage 1) - 9.30am; Oppie Beginners 2 (RYA Stage 1) - 11:15am; Topper Beginners (RYA Stages 1 & 2) - 2:00pm; Topper Intermediates (RYA Stages 3 & Start Racing) - 2:00pm; Oppie / Optimist Intermediates (RYA Stage 2 & 3) - 10am; Double Handers (RYA Stage 4 & Sailing with Spinnakers) - 2:00pm; Topper Racing Skills (RYA Pathway Club) - 2:00pm; Topper Racing Skills 8 (14/06/26) - Boat Owner,14,0.690,1.001,9.655
+2026-04-19,Sunday,RYA RACE COACH LEVEL 3 - TRAINING ROOM,14,0.667,1.306,9.334
+2026-05-19,Tuesday,TrySail RYA Level 1 and Level 2,11,0.660,1.143,7.260
+2026-06-02,Tuesday,TrySail RYA Level 1 and Level 2,18,0.658,2.150,11.847
+2026-06-09,Tuesday,TrySail RYA Level 1 and Level 2,18,0.648,2.319,11.665
+2026-10-04,Sunday,Topper Autumn Racing Skills 2 (04/10/26),14,0.571,1.382,7.997
+2026-10-03,Saturday,Topper Autumn Racing Skills 1 (27/09/26),14,0.562,0.719,7.875
+2026-06-07,Sunday,Oppie Beginners 1 (RYA Stage 1) - 9.30am; Oppie Beginners 2 (RYA Stage 1) - 11:15am; Topper Beginners (RYA Stages 1 & 2) - 2:00pm; Topper Intermediates (RYA Stages 3 & Start Racing) - 2:00pm; Oppie / Optimist Intermediates (RYA Stage 2 & 3) - 10am; Double Handers (RYA Stage 4 & Sailing with Spinnakers) - 2:00pm; Topper Racing Skills (RYA Pathway Club) - 2:00pm; Topper Racing Skills 7 (07/06/26) - Boat Owner,14,0.514,0.776,7.198
